@@ -1,7 +1,7 @@
-﻿namespace ValidatR.ConsoleApp.Models;
-
-using ValidatR.Attributes;
+﻿using ValidatR.Attributes;
 using ValidatR.Enums;
+
+namespace ValidatR.Examples.Viewmodels;
 
 public class CreateCustomerRequest
 {
