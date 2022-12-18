@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddValidatR<string>().AddParameterResolver<CreateCustomerRequest>(x => x.LastName);
+builder.Services.AddValidatR<string>().AddParameterResolver<CreateCustomerRequest>(x => x.FirstName);
 builder.Services.AddTransient<IStorageService, StorageService>();
 
 var app = builder.Build();
