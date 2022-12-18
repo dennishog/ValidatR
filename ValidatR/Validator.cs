@@ -42,26 +42,7 @@ public class Validator<TParameter> : IValidator<TParameter>
     {
         var exceptionList = new List<Exception>();
 
-        await TraverseProperties(typeof(TModel).GetProperties(), exceptionList, model, parameter, cancellationToken);
-        //foreach (var property in typeof(TModel).GetProperties())
-        //{
-        //    if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
-        //    {
-
-        //    }
-
-        //    foreach (var validator in _validators)
-        //    {
-        //        try
-        //        {
-        //            await validator.HandleAsync(property, model, parameter, cancellationToken);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            exceptionList.Add(e);
-        //        }
-        //    }
-        //}
+        await TraversePropertiesAndValidateAsync(typeof(TModel).GetProperties(), exceptionList, model, parameter, cancellationToken);
 
         if (exceptionList.Count > 0)
         {
@@ -77,7 +58,7 @@ public class Validator<TParameter> : IValidator<TParameter>
         await ValidateAsync(model, parameter, cancellationToken);
     }
 
-    public async Task TraverseProperties<TModel>(PropertyInfo[] properties, List<Exception> exceptionList, TModel model, TParameter parameter, CancellationToken cancellationToken)
+    public async Task TraversePropertiesAndValidateAsync<TModel>(PropertyInfo[] properties, List<Exception> exceptionList, TModel model, TParameter parameter, CancellationToken cancellationToken)
     {
         foreach (var property in properties)
         {
@@ -87,7 +68,7 @@ public class Validator<TParameter> : IValidator<TParameter>
 
                 if (propertyValue != null)
                 {
-                    await TraverseProperties(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
+                    await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
                 }
             }
 
