@@ -89,7 +89,7 @@ public class Validator<TParameter> : IValidator<TParameter>
                 }
 
                 Type type = model.GetType();
-                PropertyInfo info = type.GetProperty(property.Name);
+                PropertyInfo? info = type.GetProperty(property.Name);
 
                 if (info == null)
                 {
