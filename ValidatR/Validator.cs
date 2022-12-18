@@ -83,23 +83,11 @@ public class Validator<TParameter> : IValidator<TParameter>
         {
             if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
             {
-                if (model == null)
-                {
-                    return;
-                }
+                var propertyValue = property.GetValue(model, null);
 
-                Type type = model.GetType();
-                PropertyInfo? info = type.GetProperty(property.Name);
-
-                if (info == null)
+                if (propertyValue != null)
                 {
-                    return;
-                }
-                var v = info.GetValue(model, null);
-
-                if (v != null)
-                {
-                    await TraverseProperties(v.GetType().GetProperties(), exceptionList, v, parameter, cancellationToken);
+                    await TraverseProperties(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
                 }
             }
 

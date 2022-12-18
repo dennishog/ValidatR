@@ -28,8 +28,8 @@ public class StorageService : IStorageService
         {
             return type switch
             {
-                ValidatorType.Regex => ".*",
-                ValidatorType.MaxLength => "300",
+                ValidatorType.Regex => @"\d\d",
+                ValidatorType.MaxLength => "3",
                 _ => throw new NotImplementedException()
             };
         }
