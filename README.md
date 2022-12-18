@@ -22,3 +22,15 @@ app.UseValidatR<string>((name, type, parameter) =>
     return storageService.GetValidationRuleValue(name, type, parameter);
 });
 ```
+
+## Validation
+There are two ways to validate
+* Injecting IValidator<TParameter>, where TParameter is the type of the key used in the func
+* Injecting IValidator, requires adding Parameter resolvers for the types being validated otherwise an exception will be thrown.
+* Using the middleware (experimental and are low performance since it requires one middleware/type at the moment).
+
+## Registering parameter resolvers
+The AddValidatR extension method returns an interface so you can add resolvers.
+```csharp
+builder.Services.AddValidatR<string>().AddParameterResolver<CreateCustomerRequest>(x => x.LastName);
+```
