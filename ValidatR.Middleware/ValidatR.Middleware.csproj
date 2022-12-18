@@ -4,6 +4,12 @@
 	<TargetFramework>net6.0</TargetFramework>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
+	<PackageId>ValidatR.Middleware</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>dennishog</Authors>
+	<Company>DS</Company>
+	<PackageDescription>Validator middleware</PackageDescription>
+	<RepositoryUrl>https://github.com/dennishog/ValidatR</RepositoryUrl>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -18,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ValidatR\ValidatR.csproj" />
+	<ProjectReference Include="..\ValidatR\ValidatR.csproj" />
   </ItemGroup>
 
 </Project>

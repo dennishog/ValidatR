@@ -5,6 +5,12 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
 	<LangVersion>11</LangVersion>
+	<PackageId>ValidatR</PackageId>
+	<Version>1.0.0</Version>
+	<Authors>dennishog</Authors>
+	<Company>DS</Company>
+	<PackageDescription>Validator library with external control over validation rule values</PackageDescription>
+	<RepositoryUrl>https://github.com/dennishog/ValidatR</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
