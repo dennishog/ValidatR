@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace ValidatR.Resolvers;
+﻿namespace ValidatR.Resolvers;
 
 public class ParameterResolver<TModel, TParameter> : IParameterResolver<TParameter>
 {

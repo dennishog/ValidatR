@@ -1,7 +1,7 @@
-﻿using ValidatR.Enums;
-using ValidatR.Exceptions;
+﻿namespace ValidatR.Validators;
 
-namespace ValidatR.Validators;
+using Enums;
+using Exceptions;
 
 public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter>
 {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace ValidatR.Middleware;
+﻿namespace ValidatR.Middleware;
 
 public static class ApplicationBuilderExtensions
 {

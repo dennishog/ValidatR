@@ -1,7 +1,6 @@
-﻿using System.Linq.Expressions;
-using ValidatR.Resolvers;
+﻿namespace ValidatR.DependencyInjection.Builder;
 
-namespace ValidatR.DependencyInjection.Builder;
+using Resolvers;
 
 public class ParameterBuilder<TParameter> : IParameterBuilder<TParameter>
 {

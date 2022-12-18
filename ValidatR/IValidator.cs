@@ -1,6 +1,6 @@
-﻿using ValidatR.Resolvers;
+﻿namespace ValidatR;
 
-namespace ValidatR;
+using Resolvers;
 
 public interface IValidator
 {

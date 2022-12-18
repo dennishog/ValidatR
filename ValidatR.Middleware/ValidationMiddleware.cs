@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using System.Text.Json;
-
-namespace ValidatR.Middleware;
+﻿namespace ValidatR.Middleware;
 
 public class ValidationMiddleware<TModel> where TModel : class
 {

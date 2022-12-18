@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using ValidatR.DependencyInjection.Builder;
-using ValidatR.Enums;
+﻿namespace ValidatR.DependencyInjection;
 
-namespace ValidatR.DependencyInjection;
+using DependencyInjection.Builder;
+using Enums;
 
 public static class ServiceCollectionExtensions
 {

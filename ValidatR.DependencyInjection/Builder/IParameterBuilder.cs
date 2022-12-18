@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace ValidatR.DependencyInjection.Builder;
+﻿namespace ValidatR.DependencyInjection.Builder;
 
 public interface IParameterBuilder<TParameter>
 {

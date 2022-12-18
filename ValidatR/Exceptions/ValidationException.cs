@@ -1,6 +1,6 @@
-﻿using ValidatR.Enums;
+﻿namespace ValidatR.Exceptions;
 
-namespace ValidatR.Exceptions;
+using Enums;
 
 public class ValidationException<TProperty> : Exception
 {

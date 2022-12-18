@@ -1,8 +1,8 @@
-﻿using ValidatR.Enums;
-using ValidatR.Resolvers;
-using ValidatR.Validators;
+﻿namespace ValidatR;
 
-namespace ValidatR;
+using Enums;
+using Resolvers;
+using Validators;
 
 public class Validator<TParameter> : IValidator<TParameter>
 {

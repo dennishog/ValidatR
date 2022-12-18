@@ -1,8 +1,7 @@
-﻿using System.Reflection;
-using ValidatR.Attributes;
-using ValidatR.Enums;
+﻿namespace ValidatR.Validators;
 
-namespace ValidatR.Validators;
+using Attributes;
+using Enums;
 
 public abstract class ValidatorRule<TParameter> : IValidatorRule<TParameter>
 {
