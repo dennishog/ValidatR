@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-app.UseMiddleware<ValidationMiddleware<CreateCustomerRequest>>();
+app.UseValidatorMiddleware<CreateCustomerRequest>();
 
 app.MapControllers();
 

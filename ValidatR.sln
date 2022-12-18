@@ -13,6 +13,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{07
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.Middleware", "ValidatR.Middleware\ValidatR.Middleware.csproj", "{AC2F1864-E11C-4B24-8FFB-A817CE491825}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C8D6C23B-1755-480B-A95E-CE10A188E36F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.Tests", "ValidatR.Tests\ValidatR.Tests.csproj", "{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{AC2F1864-E11C-4B24-8FFB-A817CE491825}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC2F1864-E11C-4B24-8FFB-A817CE491825}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC2F1864-E11C-4B24-8FFB-A817CE491825}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,7 @@ Global
 		{B2ED2865-71D6-4DED-AEA9-B272DAFA043A} = {07BFBFEA-420E-4CED-8AE1-E349054E13F0}
 		{F75FCE85-8957-4304-A4DB-845B79292E9A} = {07BFBFEA-420E-4CED-8AE1-E349054E13F0}
 		{AC2F1864-E11C-4B24-8FFB-A817CE491825} = {07BFBFEA-420E-4CED-8AE1-E349054E13F0}
+		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34} = {C8D6C23B-1755-480B-A95E-CE10A188E36F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02AA2FD4-0753-4250-BC96-251BE29D9947}
