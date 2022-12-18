@@ -18,6 +18,8 @@ public class ValidationException<TProperty> : Exception
         {
             ValidatorType.Regex => $"{prefix}Value '{value}' is not allowed",
             ValidatorType.MaxLength => $"{prefix}Value '{value}' exceeds max length allowed ({validationRuleValue})",
+            ValidatorType.MinLength => $"{prefix}Value '{value}' length under minimum allowed length ({validationRuleValue})",
+            ValidatorType.Required => $"{prefix}Value is required",
             _ => throw new InvalidOperationException()
         };
     }

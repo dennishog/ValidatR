@@ -17,7 +17,9 @@ public class Validator<TParameter> : IValidator<TParameter>
             _validators = new List<IValidatorRule<TParameter>>
             {
                new RegexValidatorRule<TParameter>(getValidatorValueFunc),
-             new MaxLengthValidatorRule<TParameter>(getValidatorValueFunc)
+             new MaxLengthValidatorRule<TParameter>(getValidatorValueFunc),
+             new MinLengthValidatorRule<TParameter>(getValidatorValueFunc),
+             new RequiredValidatorRule<TParameter>(getValidatorValueFunc)
             };
         }
         _validators = new List<IValidatorRule<TParameter>>();
@@ -29,7 +31,9 @@ public class Validator<TParameter> : IValidator<TParameter>
         _validators = new List<IValidatorRule<TParameter>>
         {
             new RegexValidatorRule<TParameter>(getRuleValidationValue),
-            new MaxLengthValidatorRule<TParameter>(getRuleValidationValue)
+            new MaxLengthValidatorRule<TParameter>(getRuleValidationValue),
+            new MinLengthValidatorRule<TParameter>(getRuleValidationValue),
+            new RequiredValidatorRule<TParameter>(getRuleValidationValue)
         };
     }
 

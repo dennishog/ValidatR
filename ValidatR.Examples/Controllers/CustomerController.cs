@@ -17,7 +17,7 @@ public class CustomerController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateCustomer(CreateCustomerRequest request, CancellationToken cancellationToken)
     {
-        //await _validator.ValidateAsync(request, "se", cancellationToken);
+        await _validator.ValidateAsync(request, "se", cancellationToken);
 
         return Created("", request);
     }

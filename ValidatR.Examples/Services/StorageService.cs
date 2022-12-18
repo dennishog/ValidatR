@@ -15,6 +15,15 @@ public class StorageService : IStorageService
                 _ => throw new NotImplementedException()
             };
         }
+        else if (name.Equals("CreateCustomerRequest.LastName", StringComparison.OrdinalIgnoreCase))
+        {
+            return type switch
+            {
+                ValidatorType.MinLength => "40",
+                ValidatorType.Required => "true",
+                _ => throw new NotImplementedException()
+            };
+        }
         else if (name.Equals("CreateOrderRequest.CompanyName", StringComparison.OrdinalIgnoreCase))
         {
             return type switch
