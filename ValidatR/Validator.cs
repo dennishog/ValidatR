@@ -42,20 +42,26 @@ public class Validator<TParameter> : IValidator<TParameter>
     {
         var exceptionList = new List<Exception>();
 
-        foreach (var property in typeof(TModel).GetProperties())
-        {
-            foreach (var validator in _validators)
-            {
-                try
-                {
-                    await validator.HandleAsync(property, model, parameter, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    exceptionList.Add(e);
-                }
-            }
-        }
+        await TraverseProperties(typeof(TModel).GetProperties(), exceptionList, model, parameter, cancellationToken);
+        //foreach (var property in typeof(TModel).GetProperties())
+        //{
+        //    if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+        //    {
+
+        //    }
+
+        //    foreach (var validator in _validators)
+        //    {
+        //        try
+        //        {
+        //            await validator.HandleAsync(property, model, parameter, cancellationToken);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            exceptionList.Add(e);
+        //        }
+        //    }
+        //}
 
         if (exceptionList.Count > 0)
         {
@@ -69,5 +75,45 @@ public class Validator<TParameter> : IValidator<TParameter>
         var parameter = parameterResolver.GetParameterValue(model);
 
         await ValidateAsync(model, parameter, cancellationToken);
+    }
+
+    public async Task TraverseProperties<TModel>(PropertyInfo[] properties, List<Exception> exceptionList, TModel model, TParameter parameter, CancellationToken cancellationToken)
+    {
+        foreach (var property in properties)
+        {
+            if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+            {
+                if (model == null)
+                {
+                    return;
+                }
+
+                Type type = model.GetType();
+                PropertyInfo info = type.GetProperty(property.Name);
+
+                if (info == null)
+                {
+                    return;
+                }
+                var v = info.GetValue(model, null);
+
+                if (v != null)
+                {
+                    await TraverseProperties(v.GetType().GetProperties(), exceptionList, v, parameter, cancellationToken);
+                }
+            }
+
+            foreach (var validator in _validators)
+            {
+                try
+                {
+                    await validator.HandleAsync(property, model, parameter, cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    exceptionList.Add(e);
+                }
+            }
+        }
     }
 }

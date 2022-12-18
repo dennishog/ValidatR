@@ -24,6 +24,15 @@ public class StorageService : IStorageService
                 _ => throw new NotImplementedException()
             };
         }
+        else if (name.Equals("Address.Street", StringComparison.OrdinalIgnoreCase))
+        {
+            return type switch
+            {
+                ValidatorType.Regex => ".*",
+                ValidatorType.MaxLength => "300",
+                _ => throw new NotImplementedException()
+            };
+        }
 
         throw new NotImplementedException();
     }
