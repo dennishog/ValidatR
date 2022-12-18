@@ -3,6 +3,7 @@
 using Enums;
 using Resolvers;
 using Validators;
+using ValidatR.Exceptions;
 
 public class Validator<TParameter> : IValidator<TParameter>
 {
@@ -51,7 +52,7 @@ public class Validator<TParameter> : IValidator<TParameter>
 
     public async Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken)
     {
-        var parameterResolver = _parameterResolvers.Single(x => x.ShouldHandle(model));
+        var parameterResolver = _parameterResolvers.SingleOrDefault(x => x.ShouldHandle(model)) ?? throw new ParameterResolverNotFoundException<TModel, TParameter>(model);
         var parameter = parameterResolver.GetParameterValue(model);
 
         await ValidateAsync(model, parameter, cancellationToken);

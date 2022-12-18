@@ -1,4 +1,6 @@
-﻿namespace ValidatR.Tests.Fakes;
+﻿using ValidatR.Attributes;
+
+namespace ValidatR.Tests.Fakes;
 
 public class RequestModel
 {
@@ -10,6 +12,7 @@ public class RequestModel
         DecimalValue = decimalValue;
     }
 
+    [Validate(Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength, "StringValue")]
     public string StringValue { get; set; }
     public int IntValue { get; set; }
     public bool BoolValue { get; set; }
