@@ -51,29 +51,9 @@ public class Validator<TParameter> : IValidator<TParameter>
 
     public async Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken)
     {
-        var exceptionList = new List<Exception>();
-
         var parameterResolver = _parameterResolvers.Single(x => x.ShouldHandle(model));
         var parameter = parameterResolver.GetParameterValue(model);
 
-        foreach (var property in typeof(TModel).GetProperties())
-        {
-            foreach (var validator in _validators)
-            {
-                try
-                {
-                    await validator.HandleAsync(property, model, parameter, cancellationToken);
-                }
-                catch (Exception e)
-                {
-                    exceptionList.Add(e);
-                }
-            }
-        }
-
-        if (exceptionList.Count > 0)
-        {
-            throw new AggregateException(exceptionList.ToArray());
-        }
+        await ValidateAsync(model, parameter, cancellationToken);
     }
 }
