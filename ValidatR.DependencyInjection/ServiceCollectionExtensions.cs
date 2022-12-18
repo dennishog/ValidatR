@@ -5,7 +5,7 @@ using Enums;
 
 public static class ServiceCollectionExtensions
 {
-    public static IParameterBuilder<TParameter> AddValidatR<TParameter>(this IServiceCollection self, Func<string, ValidatorType, TParameter, string> getValidationRuleValueFunc)
+    public static IParameterBuilder<TParameter> AddValidatR<TParameter>(this IServiceCollection self, Func<string, ValidatorType, TParameter, string>? getValidationRuleValueFunc = null)
     {
         var validator = new Validator<TParameter>(getValidationRuleValueFunc);
 

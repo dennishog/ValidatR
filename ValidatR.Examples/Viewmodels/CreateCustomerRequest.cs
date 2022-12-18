@@ -13,7 +13,7 @@ public class CreateCustomerRequest
         Awesome = awesome;
     }
 
-    [Validate(ValidatorType.Regex | ValidatorType.MaxLength, "FirstName")]
+    [Validate(ValidatorType.Regex | ValidatorType.MaxLength, "CreateCustomerRequest.FirstName")]
     public string FirstName { get; set; }
     public string LastName { get; set; }
 

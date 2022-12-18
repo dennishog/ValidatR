@@ -1,6 +1,6 @@
 using ValidatR.AspNet;
 using ValidatR.DependencyInjection;
-using ValidatR.Enums;
+using ValidatR.Examples.Services;
 using ValidatR.Examples.Viewmodels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,15 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddValidatR<string>((name, type, parameter) =>
-{
-    return type switch
-    {
-        ValidatorType.Regex => @"\d\d",
-        ValidatorType.MaxLength => "3",
-        _ => throw new InvalidOperationException()
-    };
-}).AddParameterResolver<CreateCustomerRequest>(x => x.LastName);
+builder.Services.AddValidatR<string>().AddParameterResolver<CreateCustomerRequest>(x => x.LastName);
+builder.Services.AddTransient<IStorageService, StorageService>();
 
 var app = builder.Build();
 
@@ -32,6 +25,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.UseValidatorMiddleware<CreateCustomerRequest>();
+app.UseValidatR<string>((name, type, parameter) =>
+{
+    var storageService = app.Services.GetRequiredService<IStorageService>();
+    return storageService.GetValidationRuleValue(name, type, parameter);
+});
 
 app.MapControllers();
 

@@ -7,17 +7,30 @@ using ValidatR.Exceptions;
 
 public class Validator<TParameter> : IValidator<TParameter>
 {
-    private readonly List<IValidatorRule<TParameter>> _validators;
+    private List<IValidatorRule<TParameter>> _validators;
     private readonly List<IParameterResolver<TParameter>> _parameterResolvers;
 
-    public Validator(Func<string, ValidatorType, TParameter, string> getValidatorValueFunc)
+    public Validator(Func<string, ValidatorType, TParameter, string>? getValidatorValueFunc = null)
+    {
+        if (getValidatorValueFunc != null)
+        {
+            _validators = new List<IValidatorRule<TParameter>>
+            {
+               new RegexValidatorRule<TParameter>(getValidatorValueFunc),
+             new MaxLengthValidatorRule<TParameter>(getValidatorValueFunc)
+            };
+        }
+        _validators = new List<IValidatorRule<TParameter>>();
+        _parameterResolvers = new List<IParameterResolver<TParameter>>();
+    }
+
+    public void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, string> getRuleValidationValue)
     {
         _validators = new List<IValidatorRule<TParameter>>
         {
-            new RegexValidatorRule<TParameter>(getValidatorValueFunc),
-            new MaxLengthValidatorRule<TParameter>(getValidatorValueFunc)
+            new RegexValidatorRule<TParameter>(getRuleValidationValue),
+            new MaxLengthValidatorRule<TParameter>(getRuleValidationValue)
         };
-        _parameterResolvers = new List<IParameterResolver<TParameter>>();
     }
 
     public void AddParameterResolver(IParameterResolver<TParameter> parameterResolver)
