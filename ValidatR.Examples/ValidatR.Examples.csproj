@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ValidatR.DependencyInjection\ValidatR.DependencyInjection.csproj" />
+    <ProjectReference Include="..\ValidatR.Middleware\ValidatR.Middleware.csproj" />
   </ItemGroup>
 
 </Project>

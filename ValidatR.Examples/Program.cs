@@ -1,5 +1,7 @@
 using ValidatR.DependencyInjection;
 using ValidatR.Enums;
+using ValidatR.Examples.Viewmodels;
+using ValidatR.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,7 @@ builder.Services.AddValidatR<string>((name, type, parameter) =>
         ValidatorType.MaxLength => "3",
         _ => throw new InvalidOperationException()
     };
-});
+}).AddParameterResolver<CreateCustomerRequest>(x => x.LastName);
 
 var app = builder.Build();
 
@@ -29,6 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseMiddleware<ValidationMiddleware<CreateCustomerRequest>>();
 
 app.MapControllers();
 
