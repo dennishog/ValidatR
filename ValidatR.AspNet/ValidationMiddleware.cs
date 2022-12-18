@@ -1,4 +1,4 @@
-﻿namespace ValidatR.Middleware;
+﻿namespace ValidatR.AspNet;
 
 public class ValidationMiddleware<TModel> where TModel : class
 {

@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.DependencyInjectio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packages", "Packages", "{07BFBFEA-420E-4CED-8AE1-E349054E13F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.Middleware", "ValidatR.Middleware\ValidatR.Middleware.csproj", "{AC2F1864-E11C-4B24-8FFB-A817CE491825}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.AspNet", "ValidatR.AspNet\ValidatR.AspNet.csproj", "{AC2F1864-E11C-4B24-8FFB-A817CE491825}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C8D6C23B-1755-480B-A95E-CE10A188E36F}"
 EndProject

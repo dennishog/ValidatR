@@ -1,4 +1,4 @@
-﻿namespace ValidatR.Middleware;
+﻿namespace ValidatR.AspNet;
 
 public static class ApplicationBuilderExtensions
 {

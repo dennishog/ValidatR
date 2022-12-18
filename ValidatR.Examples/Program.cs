@@ -1,7 +1,7 @@
+using ValidatR.AspNet;
 using ValidatR.DependencyInjection;
 using ValidatR.Enums;
 using ValidatR.Examples.Viewmodels;
-using ValidatR.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

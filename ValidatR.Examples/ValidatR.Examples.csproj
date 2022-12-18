@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ValidatR.AspNet\ValidatR.AspNet.csproj" />
     <ProjectReference Include="..\ValidatR.DependencyInjection\ValidatR.DependencyInjection.csproj" />
-    <ProjectReference Include="..\ValidatR.Middleware\ValidatR.Middleware.csproj" />
   </ItemGroup>
 
 </Project>

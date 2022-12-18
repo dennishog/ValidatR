@@ -1,6 +1,4 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using ValidatR.Resolvers;
+﻿using ValidatR.Resolvers;
 using ValidatR.Tests.Fakes;
 
 namespace ValidatR.Tests.Resolvers;
