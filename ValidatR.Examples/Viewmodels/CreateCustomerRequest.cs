@@ -18,7 +18,7 @@ public class CreateCustomerRequest
     public string FirstName { get; set; }
 
     [Validate(ValidatorType.Required | ValidatorType.MinLength, "CreateCustomerRequest.LastName")]
-    public string LastName { get; set; }
+    public string? LastName { get; set; }
 
     public Address Address { get; set; }
 

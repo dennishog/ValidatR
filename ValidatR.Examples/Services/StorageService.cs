@@ -37,7 +37,7 @@ public class StorageService : IStorageService
         {
             return type switch
             {
-                ValidatorType.Regex => @"\d\d",
+                ValidatorType.Regex => @"^\d\d$",
                 ValidatorType.MaxLength => "3",
                 _ => throw new NotImplementedException()
             };
