@@ -12,7 +12,7 @@ public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.MaxLength;
 
-    protected override Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(value);
 
@@ -22,6 +22,6 @@ public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
             throw new ValidationException(attribute, $"Value '{value}' should have a maximum length of '{defaultValue}'");
         }
 
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }

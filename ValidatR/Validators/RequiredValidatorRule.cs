@@ -12,7 +12,7 @@ public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.Required;
 
-    protected override Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(value);
 
@@ -23,6 +23,6 @@ public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
             throw new ValidationException(attribute, $"Value is required");
         }
 
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }

@@ -12,7 +12,7 @@ public class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.MinLength;
 
-    protected override Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string ruleValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string ruleValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(value);
 
@@ -22,6 +22,6 @@ public class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
             throw new ValidationException(attribute, $"Value '{value}' should have a minimum length of '{ruleValue}'");
         }
 
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 }
