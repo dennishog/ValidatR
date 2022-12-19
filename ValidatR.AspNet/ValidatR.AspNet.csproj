@@ -5,7 +5,7 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<PackageId>ValidatR.Middleware</PackageId>
+	<PackageId>ValidatR.AspNet</PackageId>
 	<Version>1.0.0</Version>
 	<Authors>dennishog</Authors>
 	<Company>DS</Company>
