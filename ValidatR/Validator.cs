@@ -3,6 +3,7 @@
 using Enums;
 using Resolvers;
 using Validators;
+using ValidatR.Attributes;
 using ValidatR.Exceptions;
 
 public class Validator<TParameter> : IValidator<TParameter>
@@ -69,8 +70,9 @@ public class Validator<TParameter> : IValidator<TParameter>
             if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
             {
                 var propertyValue = property.GetValue(model, null);
+                var attribute = property.GetCustomAttribute<ValidateAttribute>();
 
-                if (propertyValue != null)
+                if (propertyValue != null && attribute != null && attribute.ValidatorType.HasFlag(ValidatorType.Required))
                 {
                     await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
                 }

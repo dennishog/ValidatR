@@ -42,6 +42,10 @@ public class StorageService : IStorageService
                 _ => throw new NotImplementedException()
             };
         }
+        else if (name.Equals("Address", StringComparison.OrdinalIgnoreCase))
+        {
+            return "true";
+        }
 
         throw new NotImplementedException();
     }
