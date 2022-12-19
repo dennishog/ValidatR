@@ -29,8 +29,8 @@ public abstract class ValidatorRule<TParameter> : IValidatorRule<TParameter>
             return;
         }
 
-        await ValidateAsync(propertyInfo, value, GetValueFunc(attribute.Id, ValidatorType, parameter), cancellationToken);
+        await ValidateAsync(attribute, value, GetValueFunc(attribute.Id, ValidatorType, parameter), cancellationToken);
     }
 
-    protected abstract Task ValidateAsync<TProperty>(PropertyInfo propertyInfo, TProperty value, string validationValue, CancellationToken cancellationToken);
+    protected abstract Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string validationValue, CancellationToken cancellationToken);
 }

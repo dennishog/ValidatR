@@ -2,6 +2,7 @@
 
 using Enums;
 using Exceptions;
+using ValidatR.Attributes;
 
 public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter>
 {
@@ -11,7 +12,7 @@ public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.Regex;
 
-    protected override Task ValidateAsync<TProperty>(PropertyInfo propertyInfo, TProperty value, string pattern, CancellationToken cancellationToken)
+    protected override Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string pattern, CancellationToken cancellationToken)
     {
         var regex = new System.Text.RegularExpressions.Regex(pattern);
 
@@ -19,7 +20,7 @@ public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter>
 
         if (valueString != null && !regex.IsMatch(valueString))
         {
-            throw new ValidationException<TProperty>(propertyInfo, ValidatorType, value, pattern);
+            throw new ValidationException(attribute, $"Value '{value}' is not allowed. Expected to follow pattern '{pattern}'");
         }
 
         return Task.CompletedTask;

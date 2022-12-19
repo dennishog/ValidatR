@@ -2,6 +2,7 @@
 
 using Enums;
 using Exceptions;
+using ValidatR.Attributes;
 
 public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 {
@@ -11,7 +12,7 @@ public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.Required;
 
-    protected override Task ValidateAsync<TProperty>(PropertyInfo propertyInfo, TProperty value, string defaultValue, CancellationToken cancellationToken)
+    protected override Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(value);
 
@@ -19,7 +20,7 @@ public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 
         if (string.IsNullOrWhiteSpace(valueString) && ruleValue)
         {
-            throw new ValidationException<TProperty>(propertyInfo, ValidatorType, value, defaultValue);
+            throw new ValidationException(attribute, $"Value is required");
         }
 
         return Task.CompletedTask;
