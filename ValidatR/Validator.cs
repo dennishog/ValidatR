@@ -11,18 +11,8 @@ public class Validator<TParameter> : IValidator<TParameter>
     private List<IValidatorRule<TParameter>> _validators;
     private readonly List<IParameterResolver<TParameter>> _parameterResolvers;
 
-    public Validator(Func<string, ValidatorType, TParameter, string>? getValidatorValueFunc = null)
+    public Validator()
     {
-        if (getValidatorValueFunc != null)
-        {
-            _validators = new List<IValidatorRule<TParameter>>
-            {
-               new RegexValidatorRule<TParameter>(getValidatorValueFunc),
-             new MaxLengthValidatorRule<TParameter>(getValidatorValueFunc),
-             new MinLengthValidatorRule<TParameter>(getValidatorValueFunc),
-             new RequiredValidatorRule<TParameter>(getValidatorValueFunc)
-            };
-        }
         _validators = new List<IValidatorRule<TParameter>>();
         _parameterResolvers = new List<IParameterResolver<TParameter>>();
     }
@@ -45,6 +35,11 @@ public class Validator<TParameter> : IValidator<TParameter>
 
     public async Task ValidateAsync<TModel>(TModel model, TParameter parameter, CancellationToken cancellationToken)
     {
+        if (!_validators.Any())
+        {
+            throw new ValidatorsNotFoundException();
+        }
+
         var exceptionList = new List<Exception>();
 
         await TraversePropertiesAndValidateAsync(typeof(TModel).GetProperties(), exceptionList, model, parameter, cancellationToken);

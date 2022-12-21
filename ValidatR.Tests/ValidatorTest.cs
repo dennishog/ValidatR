@@ -14,7 +14,9 @@ public class ValidatorTest
         var request = fixture.Create<RequestModel>();
         var cancellationToken = new CancellationToken();
 
-        var sut = new Validator<string>((name, type, parameter) =>
+        var sut = new Validator<string>();
+
+        sut.SetValidationRuleValueResolver((name, type, parameter) =>
         {
             return type switch
             {
@@ -23,7 +25,6 @@ public class ValidatorTest
                 _ => throw new InvalidOperationException()
             };
         });
-
         sut.AddParameterResolver(new ParameterResolver<RequestModel, string>(x => x.StringValue));
 
         await sut.ValidateAsync(request, cancellationToken);
@@ -36,7 +37,8 @@ public class ValidatorTest
         var request = fixture.Create<RequestModel>();
         var cancellationToken = new CancellationToken();
 
-        var sut = new Validator<string>((name, type, parameter) =>
+        var sut = new Validator<string>();
+        sut.SetValidationRuleValueResolver((name, type, parameter) =>
         {
             return type switch
             {
@@ -45,8 +47,6 @@ public class ValidatorTest
                 _ => throw new InvalidOperationException()
             };
         });
-
-
         Func<Task> act = () => sut.ValidateAsync(request, cancellationToken);
 
         await act.Should().ThrowAsync<ParameterResolverNotFoundException<RequestModel, string>>();
@@ -60,7 +60,8 @@ public class ValidatorTest
         var cancellationToken = new CancellationToken();
         var keyParameter = fixture.Create<string>();
 
-        var sut = new Validator<string>((name, type, parameter) =>
+        var sut = new Validator<string>();
+        sut.SetValidationRuleValueResolver((name, type, parameter) =>
         {
             if (parameter.Equals(keyParameter))
             {
