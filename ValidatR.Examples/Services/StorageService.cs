@@ -46,6 +46,18 @@ public class StorageService : IStorageService
         {
             return "true";
         }
+        else if (name.Equals("CreateItemRequest.Name"))
+        {
+            return type switch
+            {
+                ValidatorType.Regex => @"\d.*",
+                ValidatorType.MaxLength => "434"
+            };
+        }
+        else if (name.Equals("CreateItemRequest.Pictures"))
+        {
+            return "true";
+        }
 
         throw new NotImplementedException();
     }

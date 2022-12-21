@@ -17,7 +17,11 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateOrder(CreateOrderRequest request, CancellationToken cancellationToken)
     {
+        // CreateOrderRequest does not have a parameter rsolver registered and will only be able to validate with a provided parameter
         await _validator.ValidateAsync(request, "se", cancellationToken);
+
+        // Below would throw a ParameterResolverNotFoundException
+        // await _validator.ValidateAsync(request, cancellationToken);
 
         return Created("", request);
     }

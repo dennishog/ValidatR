@@ -19,6 +19,22 @@ public abstract class ValidatorRule<TParameter> : IValidatorRule<TParameter>
 
         var attribute = propertyInfo.GetCustomAttribute<ValidateAttribute>();
 
+        // If attribute is not found, check constructor parameters if there is a ValidateAttribute declared
+        // This is mainly to support records
+        foreach (var constructor in typeof(TModel).GetConstructors())
+        {
+            if (attribute != null)
+            {
+                continue;
+            }
+
+            var parameterInfo = constructor.GetParameters().SingleOrDefault(x => x.Name == propertyInfo.Name);
+            if (parameterInfo != null)
+            {
+                attribute = parameterInfo.GetCustomAttribute<ValidateAttribute>();
+            }
+        }
+
         if (attribute == null)
         {
             return;
