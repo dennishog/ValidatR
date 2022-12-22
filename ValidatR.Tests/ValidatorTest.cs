@@ -1,10 +1,10 @@
-﻿namespace ValidatR.Tests;
-
-using Enums;
-using Fakes;
+﻿
+using ValidatR.Enums;
 using ValidatR.Exceptions;
 using ValidatR.Resolvers;
+using ValidatR.Tests.Fakes;
 
+namespace ValidatR.Tests;
 public class ValidatorTest
 {
     [Fact]

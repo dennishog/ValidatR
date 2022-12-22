@@ -1,8 +1,8 @@
-﻿namespace ValidatR;
-
-using Resolvers;
+﻿
 using ValidatR.Enums;
+using ValidatR.Resolvers;
 
+namespace ValidatR;
 public interface IValidator
 {
     Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken);

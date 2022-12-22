@@ -1,7 +1,7 @@
-﻿namespace ValidatR.AspNet;
-
+﻿
 using ValidatR.Exceptions;
 
+namespace ValidatR.AspNet;
 public class ValidationMiddleware<TModel> where TModel : class
 {
     private readonly RequestDelegate _next;
@@ -55,8 +55,10 @@ public class ValidationMiddleware<TModel> where TModel : class
 
                         httpContext.Response.Headers.Add("Content-Type", "application/json");
                         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                        var validationProblemDetails = new HttpValidationProblemDetails(groupedValidationExceptions.ToDictionary(key => key.Key, value => value.Select(x => x.ErrorMessage).ToArray()));
-                        validationProblemDetails.Status = StatusCodes.Status400BadRequest;
+                        var validationProblemDetails = new HttpValidationProblemDetails(groupedValidationExceptions.ToDictionary(key => key.Key, value => value.Select(x => x.ErrorMessage).ToArray()))
+                        {
+                            Status = StatusCodes.Status400BadRequest
+                        };
                         await httpContext.Response.WriteAsJsonAsync(validationProblemDetails);
                         await httpContext.Response.CompleteAsync();
                     }

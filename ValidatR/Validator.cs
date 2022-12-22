@@ -1,11 +1,11 @@
-﻿namespace ValidatR;
-
-using Enums;
-using Resolvers;
-using Validators;
+﻿
 using ValidatR.Attributes;
+using ValidatR.Enums;
 using ValidatR.Exceptions;
+using ValidatR.Resolvers;
+using ValidatR.Validators;
 
+namespace ValidatR;
 public class Validator<TParameter> : IValidator<TParameter>
 {
     private List<IValidatorRule<TParameter>> _validators;

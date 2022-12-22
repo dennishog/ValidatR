@@ -1,7 +1,7 @@
-﻿namespace ValidatR.DependencyInjection;
+﻿
+using ValidatR.DependencyInjection.Builder;
 
-using DependencyInjection.Builder;
-
+namespace ValidatR.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     public static IParameterBuilder<TParameter> AddValidatR<TParameter>(this IServiceCollection self)

@@ -1,9 +1,9 @@
-﻿namespace ValidatR.Validators;
-
-using Enums;
-using Exceptions;
+﻿
 using ValidatR.Attributes;
+using ValidatR.Enums;
+using ValidatR.Exceptions;
 
+namespace ValidatR.Validators;
 public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 {
     public RequiredValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc) : base(getValueFunc)

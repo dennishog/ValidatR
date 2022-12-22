@@ -1,8 +1,8 @@
-﻿namespace ValidatR.Validators;
+﻿
+using ValidatR.Attributes;
+using ValidatR.Enums;
 
-using Attributes;
-using Enums;
-
+namespace ValidatR.Validators;
 public abstract class ValidatorRule<TParameter> : IValidatorRule<TParameter>
 {
     public ValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc)

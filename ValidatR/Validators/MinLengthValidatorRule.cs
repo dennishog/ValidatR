@@ -1,9 +1,9 @@
-﻿namespace ValidatR.Validators;
-
-using Enums;
+﻿
 using ValidatR.Attributes;
+using ValidatR.Enums;
 using ValidatR.Exceptions;
 
+namespace ValidatR.Validators;
 public class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
 {
     public MinLengthValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc) : base(getValueFunc)

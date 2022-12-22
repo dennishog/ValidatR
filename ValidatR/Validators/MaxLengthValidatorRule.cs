@@ -1,9 +1,9 @@
-﻿namespace ValidatR.Validators;
-
-using Enums;
-using Exceptions;
+﻿
 using ValidatR.Attributes;
+using ValidatR.Enums;
+using ValidatR.Exceptions;
 
+namespace ValidatR.Validators;
 public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
 {
     public MaxLengthValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc) : base(getValueFunc)
