@@ -51,7 +51,8 @@ public class StorageService : IStorageService
             return type switch
             {
                 ValidatorType.Regex => @"\d.*",
-                ValidatorType.MaxLength => "434"
+                ValidatorType.MaxLength => "434",
+                _ => throw new NotImplementedException()
             };
         }
         else if (name.Equals("CreateItemRequest.Pictures"))
