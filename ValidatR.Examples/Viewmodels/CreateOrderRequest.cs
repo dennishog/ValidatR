@@ -10,7 +10,7 @@ public class CreateOrderRequest
         Quantity = quantity;
     }
 
-    [Validate(Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength, "CreateOrderRequest.CompanyName")]
+    [Validate("CreateOrderRequest.CompanyName", Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength)]
     public string CompanyName { get; set; }
     public int Quantity { get; set; }
 }

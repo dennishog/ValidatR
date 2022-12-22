@@ -14,13 +14,13 @@ public class CreateCustomerRequest
         Awesome = awesome;
     }
 
-    [Validate(ValidatorType.Regex | ValidatorType.MaxLength, "CreateCustomerRequest.FirstName")]
+    [Validate("CreateCustomerRequest.FirstName", ValidatorType.Regex | ValidatorType.MaxLength)]
     public string FirstName { get; set; }
 
-    [Validate(ValidatorType.Required | ValidatorType.MinLength, "CreateCustomerRequest.LastName")]
+    [Validate("CreateCustomerRequest.LastName", ValidatorType.Required | ValidatorType.MinLength)]
     public string? LastName { get; set; }
 
-    [Validate(ValidatorType.Required, "Address")]
+    [Validate("Address", ValidatorType.Required)]
     public Address Address { get; set; }
 
     public int Age { get; set; }

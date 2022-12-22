@@ -4,12 +4,12 @@ namespace ValidatR.Attributes;
 
 public class ValidateAttribute : Attribute
 {
-	public ValidateAttribute(ValidatorType validatorType, string id)
+	public ValidateAttribute(string id, ValidatorType validatorType)
 	{
-		ValidatorType = validatorType;
 		Id = id;
+		ValidatorType = validatorType;
 	}
 
-	public ValidatorType ValidatorType { get; }
 	public string Id { get; }
+	public ValidatorType ValidatorType { get; }
 }

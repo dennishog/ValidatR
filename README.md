@@ -53,7 +53,7 @@ app.UseValidatR<string>((name, type, parameter) =>
 ```
 
 ## Validation
-There are two ways to validate
+There are 3 ways to validate
 * Injecting ```IValidator<TParameter>```, where TParameter is the type of the key used in the func
 * Injecting ```IValidator```, requires adding Parameter resolvers for the types being validated otherwise an exception will be thrown.
 * Using the middleware (experimental and are low performance since it requires one middleware/type at the moment).

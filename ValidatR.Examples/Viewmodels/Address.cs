@@ -9,6 +9,6 @@ public class Address
         Street = street;
     }
 
-    [Validate(Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength, "Address.Street")]
+    [Validate("Address.Street", Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength)]
     public string Street { get; set; }
 }

@@ -12,7 +12,7 @@ public class RequestModel
         DecimalValue = decimalValue;
     }
 
-    [Validate(Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength, "StringValue")]
+    [Validate("StringValue", Enums.ValidatorType.Regex | Enums.ValidatorType.MaxLength)]
     public string StringValue { get; set; }
     public int IntValue { get; set; }
     public bool BoolValue { get; set; }

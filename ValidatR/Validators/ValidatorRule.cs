@@ -42,7 +42,7 @@ public abstract class ValidatorRule<TParameter> : IValidatorRule<TParameter>
                 continue;
             }
 
-            var parameterInfo = constructor.GetParameters().SingleOrDefault(x => x.Name.Equals(propertyInfo.Name, StringComparison.OrdinalIgnoreCase));
+            var parameterInfo = constructor.GetParameters().SingleOrDefault(x => x.Name != null && x.Name.Equals(propertyInfo.Name, StringComparison.OrdinalIgnoreCase));
             if (parameterInfo != null)
             {
                 attribute = parameterInfo.GetCustomAttribute<ValidateAttribute>();
