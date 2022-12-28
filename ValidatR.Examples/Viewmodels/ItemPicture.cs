@@ -1,3 +1,6 @@
-﻿namespace ValidatR.Examples.Viewmodels;
+﻿using ValidatR.Attributes;
+using ValidatR.Enums;
 
-public record ItemPicture(string UriSmall, string UriLarge);
+namespace ValidatR.Examples.Viewmodels;
+
+public record ItemPicture(string UriSmall, [property: Validate("ItemPicture.UriLarge", ValidatorType.MinLength)] string UriLarge);

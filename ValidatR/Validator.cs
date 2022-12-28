@@ -1,4 +1,5 @@
-﻿using ValidatR.Attributes;
+﻿using System.Collections;
+using ValidatR.Attributes;
 using ValidatR.Enums;
 using ValidatR.Exceptions;
 using ValidatR.Factories;
@@ -56,7 +57,6 @@ public class Validator<TParameter> : IValidator<TParameter>
     {
         foreach (var property in properties)
         {
-            var test = property.GetIndexParameters();
             var propertyValue = property.GetValue(model, null);
             var attribute = property.GetCustomAttribute<ValidateAttribute>();
 
@@ -69,7 +69,18 @@ public class Validator<TParameter> : IValidator<TParameter>
             {
                 if (attribute.ValidatorType.HasFlag(ValidatorType.Required))
                 {
-                    await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
+                    if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+                    {
+                        var collection = propertyValue as IEnumerable;
+                        foreach (var item in collection)
+                        {
+                            await TraversePropertiesAndValidateAsync(item.GetType().GetProperties(), exceptionList, item, parameter, cancellationToken);
+                        }
+                    }
+                    else
+                    {
+                        await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
+                    }
                 }
             }
 

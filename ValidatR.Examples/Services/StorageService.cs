@@ -59,6 +59,10 @@ public class StorageService : IStorageService
         {
             return (T)Convert.ChangeType(true, typeof(T));
         }
+        else if (name.Equals("ItemPicture.UriLarge"))
+        {
+            return (T)Convert.ChangeType(50, typeof(T));
+        }
 
         throw new NotImplementedException();
     }
