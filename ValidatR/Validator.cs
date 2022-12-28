@@ -65,25 +65,6 @@ public class Validator<TParameter> : IValidator<TParameter>
                 continue;
             }
 
-            if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
-            {
-                if (attribute.ValidatorType.HasFlag(ValidatorType.Required))
-                {
-                    if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
-                    {
-                        var collection = propertyValue as IEnumerable;
-                        foreach (var item in collection)
-                        {
-                            await TraversePropertiesAndValidateAsync(item.GetType().GetProperties(), exceptionList, item, parameter, cancellationToken);
-                        }
-                    }
-                    else
-                    {
-                        await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
-                    }
-                }
-            }
-
             var validationContext = ValidationContextFactory.Create(property, attribute, propertyValue, model);
 
             foreach (var validator in _validators)
@@ -95,6 +76,27 @@ public class Validator<TParameter> : IValidator<TParameter>
                 catch (Exception e)
                 {
                     exceptionList.Add(e);
+                }
+            }
+
+            if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+            {
+                if (attribute.ValidatorType.HasFlag(ValidatorType.Required))
+                {
+                    if (typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
+                    {
+                        if (propertyValue is IEnumerable collection)
+                        {
+                            foreach (var item in collection)
+                            {
+                                await TraversePropertiesAndValidateAsync(item.GetType().GetProperties(), exceptionList, item, parameter, cancellationToken);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
+                    }
                 }
             }
         }
