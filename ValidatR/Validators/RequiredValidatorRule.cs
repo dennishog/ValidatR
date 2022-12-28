@@ -1,6 +1,4 @@
-﻿
-using ValidatR.Attributes;
-using ValidatR.Enums;
+﻿using ValidatR.Enums;
 using ValidatR.Exceptions;
 
 namespace ValidatR.Validators;
@@ -12,15 +10,15 @@ public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.Required;
 
-    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string defaultValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, string defaultValue, CancellationToken cancellationToken)
     {
-        var valueString = Convert.ToString(value);
+        var valueString = Convert.ToString(validationContext.Value);
 
         var ruleValue = bool.Parse(defaultValue);
 
         if (string.IsNullOrWhiteSpace(valueString) && ruleValue)
         {
-            throw new ValidationException(attribute, $"Value is required");
+            throw new ValidationException(validationContext.ValidateAttribute, $"Value is required");
         }
 
         await Task.CompletedTask;

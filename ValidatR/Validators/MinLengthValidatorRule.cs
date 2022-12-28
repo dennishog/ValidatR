@@ -1,6 +1,4 @@
-﻿
-using ValidatR.Attributes;
-using ValidatR.Enums;
+﻿using ValidatR.Enums;
 using ValidatR.Exceptions;
 
 namespace ValidatR.Validators;
@@ -12,14 +10,14 @@ public class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.MinLength;
 
-    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string ruleValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, string ruleValue, CancellationToken cancellationToken)
     {
-        var valueString = Convert.ToString(value);
+        var valueString = Convert.ToString(validationContext.Value);
 
         if (valueString != null && valueString.Length < int.Parse(ruleValue))
         {
 
-            throw new ValidationException(attribute, $"Value '{value}' should have a minimum length of '{ruleValue}'");
+            throw new ValidationException(validationContext.ValidateAttribute, $"Value '{validationContext.Value}' should have a minimum length of '{ruleValue}'");
         }
 
         await Task.CompletedTask;

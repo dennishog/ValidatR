@@ -1,6 +1,4 @@
-﻿
-using ValidatR.Attributes;
-using ValidatR.Enums;
+﻿using ValidatR.Enums;
 using ValidatR.Exceptions;
 
 namespace ValidatR.Validators;
@@ -12,15 +10,15 @@ public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter>
 
     public override ValidatorType ValidatorType => ValidatorType.Regex;
 
-    protected override async Task ValidateAsync<TProperty>(ValidateAttribute attribute, TProperty value, string pattern, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, string pattern, CancellationToken cancellationToken)
     {
         var regex = new System.Text.RegularExpressions.Regex(pattern);
 
-        var valueString = Convert.ToString(value);
+        var valueString = Convert.ToString(validationContext.Value);
 
         if (valueString != null && !regex.IsMatch(valueString))
         {
-            throw new ValidationException(attribute, $"Value '{value}' is not allowed. Expected to follow pattern '{pattern}'");
+            throw new ValidationException(validationContext.ValidateAttribute, $"Value '{validationContext.Value}' is not allowed. Expected to follow pattern '{pattern}'");
         }
 
         await Task.CompletedTask;

@@ -2,5 +2,5 @@
 
 public interface IValidatorRule<TParameter>
 {
-    Task HandleAsync<TModel>(PropertyInfo propertyInfo, TModel model, TParameter parameter, CancellationToken cancellationToken);
+    Task HandleAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, TParameter parameter, CancellationToken cancellationToken);
 }
