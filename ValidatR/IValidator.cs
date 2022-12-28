@@ -1,6 +1,5 @@
-﻿
-using ValidatR.Enums;
-using ValidatR.Resolvers;
+﻿using ValidatR.Resolvers;
+using ValidatR.Validators;
 
 namespace ValidatR;
 public interface IValidator
@@ -10,7 +9,8 @@ public interface IValidator
 
 public interface IValidator<TParameter> : IValidator
 {
-    void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, string> getRuleValidationValue);
+    void AddValidator(IValidatorRule<TParameter> validator);
+    //void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, object> getRuleValidationValue);
     void AddParameterResolver(IParameterResolver<TParameter> parameterResolver);
     Task ValidateAsync<TModel>(TModel model, TParameter parameter, CancellationToken cancellationToken);
 }

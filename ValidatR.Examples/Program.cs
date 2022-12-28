@@ -1,5 +1,6 @@
 using ValidatR.AspNet;
 using ValidatR.DependencyInjection;
+using ValidatR.Enums;
 using ValidatR.Examples.Services;
 using ValidatR.Examples.Viewmodels;
 
@@ -26,12 +27,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+
+var storageService = app.Services.GetRequiredService<IStorageService>();
+//return storageService.GetValidationRuleValue(name, type, parameter);
 app.UseValidatorMiddleware<CreateCustomerRequest>();
-app.UseValidatR<string>((name, type, parameter) =>
-{
-    var storageService = app.Services.GetRequiredService<IStorageService>();
-    return storageService.GetValidationRuleValue(name, type, parameter);
-});
+app.UseValidatR<string>()
+    .AddMinLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MinLength, parameter))
+    .AddMaxLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MaxLength, parameter))
+    .AddRegexValidator((id, parameter) => storageService.GetValidationRuleValue<string>(id, ValidatorType.Regex, parameter))
+    .AddRequiredValidator((id, parameter) => storageService.GetValidationRuleValue<bool>(id, ValidatorType.Required, parameter));
 
 app.MapControllers();
 

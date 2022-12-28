@@ -4,5 +4,5 @@ namespace ValidatR.Examples.Services;
 
 public interface IStorageService
 {
-    string GetValidationRuleValue(string name, ValidatorType type, string parameter);
+    T GetValidationRuleValue<T>(string name, ValidatorType type, string parameter);
 }

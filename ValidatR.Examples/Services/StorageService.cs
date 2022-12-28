@@ -4,14 +4,14 @@ namespace ValidatR.Examples.Services;
 
 public class StorageService : IStorageService
 {
-    public string GetValidationRuleValue(string name, ValidatorType type, string parameter)
+    public T GetValidationRuleValue<T>(string name, ValidatorType type, string parameter)
     {
         if (name.Equals("CreateCustomerRequest.FirstName", StringComparison.OrdinalIgnoreCase))
         {
             return type switch
             {
-                ValidatorType.Regex => @"\d\d\d\d",
-                ValidatorType.MaxLength => "4",
+                ValidatorType.Regex => (T)Convert.ChangeType(@"\d\d\d\d", typeof(T)),
+                ValidatorType.MaxLength => (T)Convert.ChangeType(4, typeof(T)),
                 _ => throw new NotImplementedException()
             };
         }
@@ -19,8 +19,8 @@ public class StorageService : IStorageService
         {
             return type switch
             {
-                ValidatorType.MinLength => "40",
-                ValidatorType.Required => "true",
+                ValidatorType.MinLength => (T)Convert.ChangeType(40, typeof(T)),
+                ValidatorType.Required => (T)Convert.ChangeType(true, typeof(T)),
                 _ => throw new NotImplementedException()
             };
         }
@@ -28,8 +28,8 @@ public class StorageService : IStorageService
         {
             return type switch
             {
-                ValidatorType.Regex => @"\d.*",
-                ValidatorType.MaxLength => "10",
+                ValidatorType.Regex => (T)Convert.ChangeType(@"\d.*", typeof(T)),
+                ValidatorType.MaxLength => (T)Convert.ChangeType(10, typeof(T)),
                 _ => throw new NotImplementedException()
             };
         }
@@ -37,27 +37,27 @@ public class StorageService : IStorageService
         {
             return type switch
             {
-                ValidatorType.Regex => @"^\d\d$",
-                ValidatorType.MaxLength => "3",
+                ValidatorType.Regex => (T)Convert.ChangeType(@"^\d\d$", typeof(T)),
+                ValidatorType.MaxLength => (T)Convert.ChangeType(3, typeof(T)),
                 _ => throw new NotImplementedException()
             };
         }
         else if (name.Equals("Address", StringComparison.OrdinalIgnoreCase))
         {
-            return "true";
+            return (T)Convert.ChangeType(true, typeof(T));
         }
         else if (name.Equals("CreateItemRequest.Name"))
         {
             return type switch
             {
-                ValidatorType.Regex => @"\d.*",
-                ValidatorType.MaxLength => "434",
+                ValidatorType.Regex => (T)Convert.ChangeType(@"\d.*", typeof(T)),
+                ValidatorType.MaxLength => (T)Convert.ChangeType(434, typeof(T)),
                 _ => throw new NotImplementedException()
             };
         }
         else if (name.Equals("CreateItemRequest.Pictures"))
         {
-            return "true";
+            return (T)Convert.ChangeType(true, typeof(T));
         }
 
         throw new NotImplementedException();

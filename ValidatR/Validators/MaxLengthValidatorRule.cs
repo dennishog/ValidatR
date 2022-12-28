@@ -2,22 +2,21 @@
 using ValidatR.Exceptions;
 
 namespace ValidatR.Validators;
-public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter>
+public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
 {
-    public MaxLengthValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc) : base(getValueFunc)
+    public MaxLengthValidatorRule(Func<string, TParameter, int> getValueFunc) : base(getValueFunc)
     {
     }
 
     public override ValidatorType ValidatorType => ValidatorType.MaxLength;
 
-    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, string defaultValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, int validationValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(validationContext.Value);
 
-        if (valueString != null && valueString.Length > int.Parse(defaultValue))
+        if (valueString != null && valueString.Length > validationValue)
         {
-
-            throw new ValidationException(validationContext.ValidateAttribute, $"Value '{validationContext.Value}' should have a maximum length of '{defaultValue}'");
+            throw new ValidationException(validationContext.ValidateAttribute, $"Value '{validationContext.Value}' should have a maximum length of '{validationValue}'");
         }
 
         await Task.CompletedTask;

@@ -2,21 +2,19 @@
 using ValidatR.Exceptions;
 
 namespace ValidatR.Validators;
-public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter>
+public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter, bool>
 {
-    public RequiredValidatorRule(Func<string, ValidatorType, TParameter, string> getValueFunc) : base(getValueFunc)
+    public RequiredValidatorRule(Func<string, TParameter, bool> getValueFunc) : base(getValueFunc)
     {
     }
 
     public override ValidatorType ValidatorType => ValidatorType.Required;
 
-    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, string defaultValue, CancellationToken cancellationToken)
+    protected override async Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, bool validationValue, CancellationToken cancellationToken)
     {
         var valueString = Convert.ToString(validationContext.Value);
 
-        var ruleValue = bool.Parse(defaultValue);
-
-        if (string.IsNullOrWhiteSpace(valueString) && ruleValue)
+        if (string.IsNullOrWhiteSpace(valueString) && validationValue)
         {
             throw new ValidationException(validationContext.ValidateAttribute, $"Value is required");
         }

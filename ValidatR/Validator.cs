@@ -1,13 +1,14 @@
 ﻿using ValidatR.Attributes;
 using ValidatR.Enums;
 using ValidatR.Exceptions;
+using ValidatR.Factories;
 using ValidatR.Resolvers;
 using ValidatR.Validators;
 
 namespace ValidatR;
 public class Validator<TParameter> : IValidator<TParameter>
 {
-    private List<IValidatorRule<TParameter>> _validators;
+    private readonly List<IValidatorRule<TParameter>> _validators;
     private readonly List<IParameterResolver<TParameter>> _parameterResolvers;
 
     public Validator()
@@ -16,16 +17,21 @@ public class Validator<TParameter> : IValidator<TParameter>
         _parameterResolvers = new List<IParameterResolver<TParameter>>();
     }
 
-    public void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, string> getRuleValidationValue)
+    public void AddValidator(IValidatorRule<TParameter> validator)
     {
-        _validators = new List<IValidatorRule<TParameter>>
-        {
-            new RegexValidatorRule<TParameter>(getRuleValidationValue),
-            new MaxLengthValidatorRule<TParameter>(getRuleValidationValue),
-            new MinLengthValidatorRule<TParameter>(getRuleValidationValue),
-            new RequiredValidatorRule<TParameter>(getRuleValidationValue)
-        };
+        _validators.Add(validator);
     }
+
+    //public void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, object> getRuleValidationValue)
+    //{
+    //    _validators = new List<IValidatorRule<TParameter>>
+    //    {
+    //        new RegexValidatorRule<TParameter>(getRuleValidationValue),
+    //        new MaxLengthValidatorRule<TParameter>(getRuleValidationValue),
+    //        new MinLengthValidatorRule<TParameter>(getRuleValidationValue),
+    //        new RequiredValidatorRule<TParameter>(getRuleValidationValue)
+    //    };
+    //}
 
     public void AddParameterResolver(IParameterResolver<TParameter> parameterResolver)
     {
@@ -61,8 +67,9 @@ public class Validator<TParameter> : IValidator<TParameter>
     {
         foreach (var property in properties)
         {
+            var test = property.GetIndexParameters();
             var propertyValue = property.GetValue(model, null);
-            var attribute = Validator<TParameter>.GetValidateAttribute<TModel>(property);
+            var attribute = property.GetCustomAttribute<ValidateAttribute>();
 
             if (propertyValue == null || attribute == null)
             {
@@ -71,25 +78,19 @@ public class Validator<TParameter> : IValidator<TParameter>
 
             if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
             {
-
                 if (attribute.ValidatorType.HasFlag(ValidatorType.Required))
                 {
                     await TraversePropertiesAndValidateAsync(propertyValue.GetType().GetProperties(), exceptionList, propertyValue, parameter, cancellationToken);
                 }
             }
 
-            var constructedValidationContextType = typeof(ValidationContext<,>).MakeGenericType(typeof(TModel), property.PropertyType);
-            var validationContext = Activator.CreateInstance(constructedValidationContextType, new[] { attribute, propertyValue, model }) ?? throw new Exception("fkljs");
+            var validationContext = ValidationContextFactory.Create(property, attribute, propertyValue, model);
 
             foreach (var validator in _validators)
             {
                 try
                 {
-                    var handleMethod = typeof(IValidatorRule<TParameter>).GetMethod(nameof(IValidatorRule<TParameter>.HandleAsync)) ?? throw new Exception("lkjdlkj");
-                    var genericHandleMethod = handleMethod.MakeGenericMethod(typeof(TModel), property.PropertyType);
-
-                    var task = (Task?)genericHandleMethod.Invoke(validator, new[] { validationContext, parameter, cancellationToken }) ?? throw new Exception("lkf");
-                    await task;
+                    await ExecuteHandleAsync<TModel>(validator, validationContext, property, parameter, cancellationToken);
                 }
                 catch (Exception e)
                 {
@@ -99,26 +100,12 @@ public class Validator<TParameter> : IValidator<TParameter>
         }
     }
 
-    private static ValidateAttribute? GetValidateAttribute<TModel>(PropertyInfo propertyInfo)
+    private async Task ExecuteHandleAsync<TModel>(IValidatorRule<TParameter> validator, object validationContext, PropertyInfo property, TParameter parameter, CancellationToken cancellationToken)
     {
-        var attribute = propertyInfo.GetCustomAttribute<ValidateAttribute>();
+        var handleMethod = typeof(IValidatorRule<TParameter>).GetMethod(nameof(IValidatorRule<TParameter>.HandleAsync)) ?? throw new Exception("lkjdlkj");
+        var genericHandleMethod = handleMethod.MakeGenericMethod(typeof(TModel), property.PropertyType);
 
-        // If attribute is not found, check constructor parameters if there is a ValidateAttribute declared
-        // This is mainly to support records
-        foreach (var constructor in typeof(TModel).GetConstructors())
-        {
-            if (attribute != null)
-            {
-                continue;
-            }
-
-            var parameterInfo = constructor.GetParameters().SingleOrDefault(x => x.Name != null && x.Name.Equals(propertyInfo.Name, StringComparison.OrdinalIgnoreCase));
-            if (parameterInfo != null)
-            {
-                attribute = parameterInfo.GetCustomAttribute<ValidateAttribute>();
-            }
-        }
-
-        return attribute;
+        var task = (Task?)genericHandleMethod.Invoke(validator, new[] { validationContext, parameter, cancellationToken }) ?? throw new Exception("lkf");
+        await task;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ValidatR.Attributes;
 
+[AttributeUsage(AttributeTargets.Property)]
 public class ValidateAttribute : Attribute
 {
 	public ValidateAttribute(string id, ValidatorType validatorType)

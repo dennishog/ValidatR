@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using ValidatR.Enums;
+using ValidatR.DependencyInjection.Builder;
 
 namespace ValidatR.DependencyInjection;
 
 public static class ApplicationBuilderExtensions
 {
-    public static IApplicationBuilder UseValidatR<TParameter>(this IApplicationBuilder self, Func<string, ValidatorType, TParameter, string> getRuleValidationValue)
+    public static IValidatorBuilder<TParameter> UseValidatR<TParameter>(this IApplicationBuilder self)
     {
         var validator = self.ApplicationServices.GetRequiredService<IValidator<TParameter>>();
 
-        validator.SetValidationRuleValueResolver(getRuleValidationValue);
-
-        return self;
+        return new ValidatorBuilder<TParameter>(validator);
     }
 }
