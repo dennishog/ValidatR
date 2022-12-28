@@ -22,17 +22,6 @@ public class Validator<TParameter> : IValidator<TParameter>
         _validators.Add(validator);
     }
 
-    //public void SetValidationRuleValueResolver(Func<string, ValidatorType, TParameter, object> getRuleValidationValue)
-    //{
-    //    _validators = new List<IValidatorRule<TParameter>>
-    //    {
-    //        new RegexValidatorRule<TParameter>(getRuleValidationValue),
-    //        new MaxLengthValidatorRule<TParameter>(getRuleValidationValue),
-    //        new MinLengthValidatorRule<TParameter>(getRuleValidationValue),
-    //        new RequiredValidatorRule<TParameter>(getRuleValidationValue)
-    //    };
-    //}
-
     public void AddParameterResolver(IParameterResolver<TParameter> parameterResolver)
     {
         _parameterResolvers.Add(parameterResolver);
@@ -102,10 +91,10 @@ public class Validator<TParameter> : IValidator<TParameter>
 
     private async Task ExecuteHandleAsync<TModel>(IValidatorRule<TParameter> validator, object validationContext, PropertyInfo property, TParameter parameter, CancellationToken cancellationToken)
     {
-        var handleMethod = typeof(IValidatorRule<TParameter>).GetMethod(nameof(IValidatorRule<TParameter>.HandleAsync)) ?? throw new Exception("lkjdlkj");
-        var genericHandleMethod = handleMethod.MakeGenericMethod(typeof(TModel), property.PropertyType);
+        var handleMethod = typeof(IValidatorRule<TParameter>).GetMethod(nameof(IValidatorRule<TParameter>.HandleAsync));
+        var genericHandleMethod = handleMethod?.MakeGenericMethod(typeof(TModel), property.PropertyType);
 
-        var task = (Task?)genericHandleMethod.Invoke(validator, new[] { validationContext, parameter, cancellationToken }) ?? throw new Exception("lkf");
+        var task = (Task?)genericHandleMethod?.Invoke(validator, new[] { validationContext, parameter, cancellationToken }) ?? throw new InvalidOperationException();
         await task;
     }
 }

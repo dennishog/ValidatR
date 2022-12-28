@@ -1,5 +1,4 @@
-﻿
-using ValidatR.DependencyInjection.Builder;
+﻿using ValidatR.DependencyInjection.Builder;
 
 namespace ValidatR.DependencyInjection;
 public static class ServiceCollectionExtensions
