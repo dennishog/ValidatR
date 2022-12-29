@@ -3,12 +3,12 @@ using ValidatR.Exceptions;
 
 namespace ValidatR.AspNet;
 
-public class ValidationErrorMiddleware
+public class ValidationExceptionMiddleware
 {
-    private readonly ILogger<ValidationErrorMiddleware> _logger;
+    private readonly ILogger<ValidationExceptionMiddleware> _logger;
     private readonly RequestDelegate _next;
 
-    public ValidationErrorMiddleware(RequestDelegate next, ILogger<ValidationErrorMiddleware> logger)
+    public ValidationExceptionMiddleware(RequestDelegate next, ILogger<ValidationExceptionMiddleware> logger)
     {
         _next = next;
         _logger = logger;
