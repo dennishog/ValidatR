@@ -1,6 +1,6 @@
 ﻿namespace ValidatR.Providers;
 
-internal interface IPropertyProvider
+public interface IPropertyProvider
 {
     Task<List<IValidationContext>> GetValidationContextForAllPropertiesAsync<TModel>(TModel model, CancellationToken cancellationToken)
         where TModel : class;

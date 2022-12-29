@@ -2,7 +2,7 @@
 using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
-internal abstract class ValidatorRule<TParameter, TValidationRuleValue> : IValidatorRule<TParameter>
+public abstract class ValidatorRule<TParameter, TValidationRuleValue> : IValidatorRule<TParameter>
 {
     private readonly IValidatorRuleValueResolver<TParameter> _ruleValueResolver;
 

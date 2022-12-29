@@ -2,7 +2,7 @@
 
 namespace ValidatR;
 
-internal class ValidationContext<TModel, TValue> : IValidationContext
+public class ValidationContext<TModel, TValue> : IValidationContext
 {
     public ValidationContext(ValidateAttribute validateAttribute, TValue value, TModel owner)
     {

@@ -1,6 +1,6 @@
 ﻿namespace ValidatR;
 
-internal interface IValidationContext
+public interface IValidationContext
 {
     Type GetValueType();
     Type GetModelType();
