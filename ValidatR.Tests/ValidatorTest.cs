@@ -57,7 +57,7 @@ public class ValidatorTest
 
         var parameter = fixture.Create<string>();
 
-        _parameterResolver.GetParameterValue(request).Throws(new ParameterResolverNotFoundException<RequestModel, string>(request));
+        _parameterResolver.GetParameterValue(request).Returns(parameter);
         _parameterResolver.ShouldHandle(request).Returns(true);
 
         _propertyProvider.GetValidationContextForAllPropertiesAsync(request, cancellationToken).Returns(new List<IValidationContext>
