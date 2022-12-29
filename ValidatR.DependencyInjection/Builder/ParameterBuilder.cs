@@ -1,7 +1,7 @@
 ﻿using ValidatR.Resolvers;
 
 namespace ValidatR.DependencyInjection.Builder;
-public class ParameterBuilder<TParameter> : IParameterBuilder<TParameter>
+internal class ParameterBuilder<TParameter> : IParameterBuilder<TParameter>
 {
     private readonly IServiceCollection _services;
 

@@ -3,7 +3,7 @@ using ValidatR.Exceptions;
 using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
-public class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
+internal class MinLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
 {
     public MinLengthValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {

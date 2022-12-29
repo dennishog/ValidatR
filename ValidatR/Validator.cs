@@ -4,7 +4,7 @@ using ValidatR.Resolvers;
 using ValidatR.Validators;
 
 namespace ValidatR;
-public class Validator<TParameter> : IValidator<TParameter>
+internal class Validator<TParameter> : IValidator<TParameter>
 {
     private readonly IEnumerable<IValidatorRule<TParameter>> _validators;
     private readonly IEnumerable<IParameterResolver<TParameter>> _parameterResolvers;

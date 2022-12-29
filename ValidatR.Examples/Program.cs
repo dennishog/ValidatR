@@ -31,7 +31,7 @@ app.UseAuthorization();
 
 var storageService = app.Services.GetRequiredService<IStorageService>();
 //return storageService.GetValidationRuleValue(name, type, parameter);
-app.UseValidatorMiddleware();
+app.UseValidatorMiddleware(typeof(CreateCustomerRequest), typeof(Address));
 app.UseValidatR<string>()
     .AddMinLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MinLength, parameter))
     .AddMaxLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MaxLength, parameter))

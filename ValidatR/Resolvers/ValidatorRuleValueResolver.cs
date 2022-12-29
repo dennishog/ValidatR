@@ -1,6 +1,6 @@
 ﻿namespace ValidatR.Resolvers;
 
-public class ValidatorRuleValueResolver<TParameter> : IValidatorRuleValueResolver<TParameter>
+internal class ValidatorRuleValueResolver<TParameter> : IValidatorRuleValueResolver<TParameter>
 {
     private readonly Dictionary<Type, Delegate> _validatorRuleValueFuncs;
 

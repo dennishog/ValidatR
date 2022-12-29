@@ -13,4 +13,9 @@
 	<RepositoryUrl>https://github.com/dennishog/ValidatR</RepositoryUrl>
   </PropertyGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
+		<InternalsVisibleTo Include="$(AssemblyName).DependencyInjection" />
+	</ItemGroup>
+
 </Project>

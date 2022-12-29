@@ -3,7 +3,7 @@ using ValidatR.Exceptions;
 using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
-public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter, string>
+internal class RegexValidatorRule<TParameter> : ValidatorRule<TParameter, string>
 {
     public RegexValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {

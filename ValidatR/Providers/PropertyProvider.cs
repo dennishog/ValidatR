@@ -5,7 +5,7 @@ using ValidatR.Factories;
 
 namespace ValidatR.Providers;
 
-public class PropertyProvider : IPropertyProvider
+internal class PropertyProvider : IPropertyProvider
 {
     public async Task<List<IValidationContext>> GetValidationContextForAllPropertiesAsync<TModel>(TModel model, CancellationToken cancellationToken)
         where TModel : class

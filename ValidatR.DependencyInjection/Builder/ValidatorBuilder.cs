@@ -3,7 +3,7 @@ using ValidatR.Validators;
 
 namespace ValidatR.DependencyInjection.Builder;
 
-public class ValidatorBuilder<TParameter> : IValidatorBuilder<TParameter>
+internal class ValidatorBuilder<TParameter> : IValidatorBuilder<TParameter>
 {
     private readonly IEnumerable<IValidatorRule<TParameter>> _validators;
     private readonly IValidatorRuleValueResolver<TParameter> _validatorRuleValueResolver;

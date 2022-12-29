@@ -3,7 +3,7 @@ using ValidatR.Exceptions;
 using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
-public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
+internal class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
 {
     public MaxLengthValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {

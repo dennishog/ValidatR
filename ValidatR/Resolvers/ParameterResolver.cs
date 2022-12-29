@@ -1,6 +1,6 @@
 ﻿namespace ValidatR.Resolvers;
 
-public class ParameterResolver<TModel, TParameter> : IParameterResolver<TParameter>
+internal class ParameterResolver<TModel, TParameter> : IParameterResolver<TParameter>
 {
     private readonly Func<TModel, TParameter> _parameterSelector;
 

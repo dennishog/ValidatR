@@ -3,7 +3,7 @@ using ValidatR.Exceptions;
 using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
-public class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter, bool>
+internal class RequiredValidatorRule<TParameter> : ValidatorRule<TParameter, bool>
 {
     public RequiredValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {
