@@ -14,7 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidatR<string>()
     .AddParameterResolver<CreateCustomerRequest>(x => x.FirstName)
-    .AddParameterResolver<CreateItemRequest>(x => x.Name);
+    .AddParameterResolver<CreateItemRequest>(x => x.Name)
+    .AddParameterResolver<Address>(x => x.Street);
 builder.Services.AddTransient<IStorageService, StorageService>();
 
 var app = builder.Build();
@@ -30,7 +31,7 @@ app.UseAuthorization();
 
 var storageService = app.Services.GetRequiredService<IStorageService>();
 //return storageService.GetValidationRuleValue(name, type, parameter);
-app.UseValidatorMiddleware<CreateCustomerRequest>();
+app.UseValidatorMiddleware();
 app.UseValidatR<string>()
     .AddMinLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MinLength, parameter))
     .AddMaxLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MaxLength, parameter))
