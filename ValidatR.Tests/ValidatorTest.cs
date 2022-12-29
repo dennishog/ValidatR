@@ -1,6 +1,4 @@
-﻿using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using ValidatR.Exceptions;
+﻿using ValidatR.Exceptions;
 using ValidatR.Providers;
 using ValidatR.Resolvers;
 using ValidatR.Tests.Fakes;
