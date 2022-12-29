@@ -1,10 +1,11 @@
 ﻿using ValidatR.Enums;
 using ValidatR.Exceptions;
+using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
 public class MaxLengthValidatorRule<TParameter> : ValidatorRule<TParameter, int>
 {
-    public MaxLengthValidatorRule(Func<string, TParameter, int> getValueFunc) : base(getValueFunc)
+    public MaxLengthValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {
     }
 

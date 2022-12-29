@@ -2,5 +2,6 @@
 
 public interface IPropertyProvider
 {
-    Task<List<object>> GetValidationContextForAllPropertiesAsync<TModel>(TModel model, CancellationToken cancellationToken);
+    Task<List<IValidationContext>> GetValidationContextForAllPropertiesAsync<TModel>(TModel model, CancellationToken cancellationToken)
+        where TModel : class;
 }

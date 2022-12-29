@@ -1,10 +1,11 @@
 ﻿using ValidatR.Enums;
 using ValidatR.Exceptions;
+using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
 public class RegexValidatorRule<TParameter> : ValidatorRule<TParameter, string>
 {
-    public RegexValidatorRule(Func<string, TParameter, string> getValueFunc) : base(getValueFunc)
+    public RegexValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver) : base(ruleValueResolver)
     {
     }
 

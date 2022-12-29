@@ -1,14 +1,16 @@
 ﻿using ValidatR.Enums;
+using ValidatR.Resolvers;
 
 namespace ValidatR.Validators;
 public abstract class ValidatorRule<TParameter, TValidationRuleValue> : IValidatorRule<TParameter>
 {
-    public ValidatorRule(Func<string, TParameter, TValidationRuleValue> getValueFunc)
+    private readonly IValidatorRuleValueResolver<TParameter> _ruleValueResolver;
+
+    public ValidatorRule(IValidatorRuleValueResolver<TParameter> ruleValueResolver)
     {
-        GetValueFunc = getValueFunc;
+        _ruleValueResolver = ruleValueResolver;
     }
 
-    public Func<string, TParameter, TValidationRuleValue> GetValueFunc { get; init; }
     public abstract ValidatorType ValidatorType { get; }
 
     public async Task ExecuteHandleAsync<T>(IValidationContext validationContext, T parameter, CancellationToken cancellationToken)
@@ -32,7 +34,9 @@ public abstract class ValidatorRule<TParameter, TValidationRuleValue> : IValidat
             return;
         }
 
-        await ValidateAsync(validationContext, GetValueFunc(validationContext.ValidateAttribute.Id, parameter), cancellationToken);
+        var ruleValue = _ruleValueResolver.GetValidatorRuleValue<TValidationRuleValue>(GetType(), validationContext.ValidateAttribute.Id, parameter);
+
+        await ValidateAsync(validationContext, ruleValue, cancellationToken);
     }
 
     protected abstract Task ValidateAsync<TModel, TValue>(ValidationContext<TModel, TValue> validationContext, TValidationRuleValue validationValue, CancellationToken cancellationToken);

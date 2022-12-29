@@ -6,25 +6,15 @@ using ValidatR.Validators;
 namespace ValidatR;
 public class Validator<TParameter> : IValidator<TParameter>
 {
-    private readonly List<IValidatorRule<TParameter>> _validators;
-    private readonly List<IParameterResolver<TParameter>> _parameterResolvers;
-    private readonly PropertyProvider _propertyProvider;
+    private readonly IEnumerable<IValidatorRule<TParameter>> _validators;
+    private readonly IEnumerable<IParameterResolver<TParameter>> _parameterResolvers;
+    private readonly IPropertyProvider _propertyProvider;
 
-    public Validator()
+    public Validator(IEnumerable<IValidatorRule<TParameter>> validators, IEnumerable<IParameterResolver<TParameter>> parameterResolvers, IPropertyProvider propertyProvider)
     {
-        _validators = new List<IValidatorRule<TParameter>>();
-        _parameterResolvers = new List<IParameterResolver<TParameter>>();
-        _propertyProvider = new PropertyProvider();
-    }
-
-    public void AddValidator(IValidatorRule<TParameter> validator)
-    {
-        _validators.Add(validator);
-    }
-
-    public void AddParameterResolver(IParameterResolver<TParameter> parameterResolver)
-    {
-        _parameterResolvers.Add(parameterResolver);
+        _validators = validators;
+        _parameterResolvers = parameterResolvers;
+        _propertyProvider = propertyProvider;
     }
 
     public async Task ValidateAsync<TModel>(TModel model, TParameter parameter, CancellationToken cancellationToken)
