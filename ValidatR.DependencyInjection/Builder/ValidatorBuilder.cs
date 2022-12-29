@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using ValidatR.Resolvers;
+﻿using ValidatR.Resolvers;
 using ValidatR.Validators;
 
 namespace ValidatR.DependencyInjection.Builder;

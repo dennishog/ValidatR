@@ -1,4 +1,6 @@
 ﻿using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using ValidatR.Exceptions;
 using ValidatR.Providers;
 using ValidatR.Resolvers;
 using ValidatR.Tests.Fakes;
@@ -8,28 +10,42 @@ namespace ValidatR.Tests;
 public class ValidatorTest
 {
     private readonly IValidatorRule<string> _validator;
-    private readonly IEnumerable<IValidatorRule<string>> _validators;
     private readonly IParameterResolver<string> _parameterResolver;
-    private readonly IEnumerable<IParameterResolver<string>> _parameterResolvers;
     private readonly IPropertyProvider _propertyProvider;
     private readonly Validator<string> _sut;
 
     public ValidatorTest()
     {
         _validator = Substitute.For<IValidatorRule<string>>();
-        _validators = new List<IValidatorRule<string>>
+        var validators = new List<IValidatorRule<string>>
         {
             _validator
         };
 
         _parameterResolver = Substitute.For<IParameterResolver<string>>();
-        _parameterResolvers = new List<IParameterResolver<string>>
+        var parameterResolvers = new List<IParameterResolver<string>>
         {
             _parameterResolver
         };
         _propertyProvider = Substitute.For<IPropertyProvider>();
 
-        _sut = new Validator<string>(_validators, _parameterResolvers, _propertyProvider);
+        _sut = new Validator<string>(validators, parameterResolvers, _propertyProvider);
+    }
+
+    [Fact]
+    public async Task ValidateWithResolverThrowsException()
+    {
+        var fixture = new Fixture();
+        var request = fixture.Create<RequestModel>();
+        var cancellationToken = new CancellationToken();
+
+        var parameter = fixture.Create<string>();
+
+        _parameterResolver.GetParameterValue(request).Throws(new ParameterResolverNotFoundException<RequestModel, string>(request));
+
+        Func<Task> act = () => _sut.ValidateAsync(request, cancellationToken);
+
+        await act.Should().ThrowAsync<ParameterResolverNotFoundException<RequestModel, string>>();
     }
 
     [Fact]
@@ -41,7 +57,7 @@ public class ValidatorTest
 
         var parameter = fixture.Create<string>();
 
-        _parameterResolver.GetParameterValue(request).Returns(parameter);
+        _parameterResolver.GetParameterValue(request).Throws(new ParameterResolverNotFoundException<RequestModel, string>(request));
         _parameterResolver.ShouldHandle(request).Returns(true);
 
         _propertyProvider.GetValidationContextForAllPropertiesAsync(request, cancellationToken).Returns(new List<IValidationContext>

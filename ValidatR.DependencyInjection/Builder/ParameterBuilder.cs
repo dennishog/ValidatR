@@ -1,5 +1,4 @@
-﻿
-using ValidatR.Resolvers;
+﻿using ValidatR.Resolvers;
 
 namespace ValidatR.DependencyInjection.Builder;
 public class ParameterBuilder<TParameter> : IParameterBuilder<TParameter>

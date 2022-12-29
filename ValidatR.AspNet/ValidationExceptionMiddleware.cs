@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using ValidatR.Exceptions;
+﻿using ValidatR.Exceptions;
 
 namespace ValidatR.AspNet;
 
