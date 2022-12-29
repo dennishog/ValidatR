@@ -1,81 +1,54 @@
-﻿
-//using ValidatR.Enums;
-//using ValidatR.Exceptions;
-//using ValidatR.Resolvers;
-//using ValidatR.Tests.Fakes;
+﻿using NSubstitute;
+using ValidatR.Providers;
+using ValidatR.Resolvers;
+using ValidatR.Tests.Fakes;
+using ValidatR.Validators;
 
-//namespace ValidatR.Tests;
-//public class ValidatorTest
-//{
-//    [Fact]
-//    public async Task ValidateWithResolverSuccessfully()
-//    {
-//        var fixture = new Fixture();
-//        var request = fixture.Create<RequestModel>();
-//        var cancellationToken = new CancellationToken();
+namespace ValidatR.Tests;
+public class ValidatorTest
+{
+    private readonly IValidatorRule<string> _validator;
+    private readonly IEnumerable<IValidatorRule<string>> _validators;
+    private readonly IParameterResolver<string> _parameterResolver;
+    private readonly IEnumerable<IParameterResolver<string>> _parameterResolvers;
+    private readonly IPropertyProvider _propertyProvider;
+    private readonly Validator<string> _sut;
 
-//        var sut = new Validator<string>();
+    public ValidatorTest()
+    {
+        _validator = Substitute.For<IValidatorRule<string>>();
+        _validators = new List<IValidatorRule<string>>
+        {
+            _validator
+        };
 
-//        sut.SetValidationRuleValueResolver((name, type, parameter) =>
-//        {
-//            return type switch
-//            {
-//                ValidatorType.Regex => @".*",
-//                ValidatorType.MaxLength => "400",
-//                _ => throw new InvalidOperationException()
-//            };
-//        });
-//        sut.AddParameterResolver(new ParameterResolver<RequestModel, string>(x => x.StringValue));
+        _parameterResolver = Substitute.For<IParameterResolver<string>>();
+        _parameterResolvers = new List<IParameterResolver<string>>
+        {
+            _parameterResolver
+        };
+        _propertyProvider = Substitute.For<IPropertyProvider>();
 
-//        await sut.ValidateAsync(request, cancellationToken);
-//    }
+        _sut = new Validator<string>(_validators, _parameterResolvers, _propertyProvider);
+    }
 
-//    [Fact]
-//    public async Task ValidateWithResolverThrowsMissingResolverException()
-//    {
-//        var fixture = new Fixture();
-//        var request = fixture.Create<RequestModel>();
-//        var cancellationToken = new CancellationToken();
+    [Fact]
+    public async Task ValidateWithResolverSuccessfully()
+    {
+        var fixture = new Fixture();
+        var request = fixture.Create<RequestModel>();
+        var cancellationToken = new CancellationToken();
 
-//        var sut = new Validator<string>();
-//        sut.SetValidationRuleValueResolver((name, type, parameter) =>
-//        {
-//            return type switch
-//            {
-//                ValidatorType.Regex => @".*",
-//                ValidatorType.MaxLength => "400",
-//                _ => throw new InvalidOperationException()
-//            };
-//        });
-//        Func<Task> act = () => sut.ValidateAsync(request, cancellationToken);
+        var parameter = fixture.Create<string>();
 
-//        await act.Should().ThrowAsync<ParameterResolverNotFoundException<RequestModel, string>>();
-//    }
+        _parameterResolver.GetParameterValue(request).Returns(parameter);
+        _parameterResolver.ShouldHandle(request).Returns(true);
 
-//    [Fact]
-//    public async Task ValidateWithParameter()
-//    {
-//        var fixture = new Fixture();
-//        var request = fixture.Create<RequestModel>();
-//        var cancellationToken = new CancellationToken();
-//        var keyParameter = fixture.Create<string>();
+        _propertyProvider.GetValidationContextForAllPropertiesAsync(request, cancellationToken).Returns(new List<IValidationContext>
+        {
+            new ValidationContext<RequestModel, string>(new Attributes.ValidateAttribute("test", Enums.ValidatorType.Required), "test", request)
+        });
 
-//        var sut = new Validator<string>();
-//        sut.SetValidationRuleValueResolver((name, type, parameter) =>
-//        {
-//            if (parameter.Equals(keyParameter))
-//            {
-//                return type switch
-//                {
-//                    ValidatorType.Regex => @".*",
-//                    ValidatorType.MaxLength => "400",
-//                    _ => throw new InvalidOperationException()
-//                };
-//            }
-
-//            throw new InvalidOperationException();
-//        });
-
-//        await sut.ValidateAsync(request, keyParameter, cancellationToken);
-//    }
-//}
+        await _sut.ValidateAsync(request, cancellationToken);
+    }
+}
