@@ -11,13 +11,16 @@ public class PropertyProvider : IPropertyProvider
         where TModel : class
     {
         var validationContexts = new List<IValidationContext>();
-        await TraversePropertiesRecursivelyAsync(typeof(TModel).GetProperties(), model, validationContexts, cancellationToken);
+
+        await TraversePropertiesRecursivelyAsync(model, validationContexts, cancellationToken);
         return validationContexts;
     }
 
-    public async Task TraversePropertiesRecursivelyAsync<TModel>(PropertyInfo[] properties, TModel model, List<IValidationContext> validationContexts, CancellationToken cancellationToken)
+    public async Task TraversePropertiesRecursivelyAsync<TModel>(TModel model, List<IValidationContext> validationContexts, CancellationToken cancellationToken)
     {
-        foreach (var property in properties)
+        foreach (var property in (from properties in typeof(TModel).GetProperties()
+                                  where properties.CustomAttributes.Any(x => x.AttributeType.Equals(typeof(ValidateAttribute)))
+                                  select properties))
         {
             var propertyValue = property.GetValue(model, null);
             var attribute = property.GetCustomAttribute<ValidateAttribute>();
@@ -39,24 +42,25 @@ public class PropertyProvider : IPropertyProvider
                         {
                             foreach (var item in collection)
                             {
-                                var handleMethod = typeof(PropertyProvider).GetMethod(nameof(PropertyProvider.TraversePropertiesRecursivelyAsync));
-                                var genericHandleMethod = handleMethod?.MakeGenericMethod(item.GetType());
-
-                                var task = (Task?)genericHandleMethod?.Invoke(this, new object[] { item.GetType().GetProperties(), item, validationContexts, cancellationToken }) ?? throw new InvalidOperationException();
-                                await task;
+                                await ExecuteTraversePropertiesRecursivelyNonGeneric(item.GetType(), item, validationContexts, cancellationToken);
                             }
                         }
                     }
                     else
                     {
-                        var handleMethod = typeof(PropertyProvider).GetMethod(nameof(PropertyProvider.TraversePropertiesRecursivelyAsync));
-                        var genericHandleMethod = handleMethod?.MakeGenericMethod(propertyValue.GetType());
-
-                        var task = (Task?)genericHandleMethod?.Invoke(this, new object[] { propertyValue.GetType().GetProperties(), propertyValue, validationContexts, cancellationToken }) ?? throw new InvalidOperationException();
-                        await task;
+                        await ExecuteTraversePropertiesRecursivelyNonGeneric(propertyValue.GetType(), propertyValue, validationContexts, cancellationToken);
                     }
                 }
             }
         }
+    }
+
+    private async Task ExecuteTraversePropertiesRecursivelyNonGeneric(Type modelType, object model, List<IValidationContext> validationContexts, CancellationToken cancellationToken)
+    {
+        var traverseMethod = typeof(PropertyProvider).GetMethod(nameof(PropertyProvider.TraversePropertiesRecursivelyAsync));
+        var genericTraverseMethod = traverseMethod?.MakeGenericMethod(modelType);
+
+        var task = (Task?)genericTraverseMethod?.Invoke(this, new object[] { model, validationContexts, cancellationToken }) ?? throw new InvalidOperationException();
+        await task;
     }
 }
