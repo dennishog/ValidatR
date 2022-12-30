@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
+	<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 	<ImplicitUsings>enable</ImplicitUsings>
 	<Nullable>enable</Nullable>
+	<LangVersion>latest</LangVersion>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	<PackageId>ValidatR.AspNet</PackageId>
 	<Version>1.0.0</Version>
@@ -16,13 +17,6 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
-	
-
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
-	  <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
-  </ItemGroup>
 
   <ItemGroup>
 	<ProjectReference Include="..\ValidatR\ValidatR.csproj" />
