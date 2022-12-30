@@ -12,6 +12,7 @@
 	<Company>DS</Company>
 	<PackageDescription>Validator library with external control over validation rule values</PackageDescription>
 	<RepositoryUrl>https://github.com/dennishog/ValidatR</RepositoryUrl>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -24,6 +25,10 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md" Pack="true" PackagePath="" Visible="False" />
 	</ItemGroup>
 
 </Project>

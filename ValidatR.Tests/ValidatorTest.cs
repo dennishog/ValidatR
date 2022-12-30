@@ -65,4 +65,19 @@ public class ValidatorTest
 
         await _sut.ValidateAsync(request, cancellationToken);
     }
+
+    //[Fact]
+    //public async Task ValidateThrowsNoValidatorsFoundException()
+    //{
+    //    var fixture = new Fixture();
+    //    var request = fixture.Create<RequestModel>();
+    //    var cancellationToken = new CancellationToken();
+
+
+
+
+    //    Func<Task> act = () => _sut.ValidateAsync(request, "se", cancellationToken);
+
+    //    await act.Should().ThrowAsync<ValidatorsNotFoundException>();
+    //}
 }
