@@ -1,4 +1,6 @@
-﻿namespace ValidatR.Resolvers;
+﻿using ValidatR.Exceptions;
+
+namespace ValidatR.Resolvers;
 
 internal class ValidatorRuleValueResolver<TParameter> : IValidatorRuleValueResolver<TParameter>
 {
@@ -16,8 +18,14 @@ internal class ValidatorRuleValueResolver<TParameter> : IValidatorRuleValueResol
 
     public TValidatorRuleValue GetValidatorRuleValue<TValidatorRuleValue>(Type validatorRuleType, string id, TParameter parameter)
     {
-        var func = _validatorRuleValueFuncs[validatorRuleType];
+        parameter = parameter ?? throw new ArgumentNullException(nameof(parameter));
 
-        return (TValidatorRuleValue?)func.DynamicInvoke(id, parameter) ?? throw new Exception("lkjlkjfd");
+        var func = _validatorRuleValueFuncs.ContainsKey(validatorRuleType)
+            ? _validatorRuleValueFuncs[validatorRuleType]
+            : throw new ValidatorRuleValueResolverNotFoundException(validatorRuleType);
+
+        var validatorRuleValue = func.DynamicInvoke(id, parameter);
+
+        return (TValidatorRuleValue?)validatorRuleValue ?? throw new ArgumentNullException(nameof(validatorRuleValue));
     }
 }
