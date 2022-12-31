@@ -62,4 +62,50 @@ public class MaxLengthValidatorRuleTest
 
         await act.Should().ThrowAsync<ValidationException>().WithMessage($"Value '{validationContext.Value}' should have a maximum length of '{maxLength}'");
     }
+
+    [Theory]
+    [InlineData("test", 4)]
+    [InlineData("testi", 5)]
+    [InlineData("testin", 6)]
+    [InlineData("testing", 7)]
+    public async Task ExecuteSuccessfully(string value, int maxLength)
+    {
+        var fixture = new Fixture();
+        var model = fixture.Create<RequestModel>();
+        var id = fixture.Create<string>();
+        var parameter = fixture.Create<string>();
+
+        var attribute = new ValidateAttribute(id, Enums.ValidatorType.MaxLength);
+        var validationContext = new ValidationContext<RequestModel, string>(attribute, value, model);
+
+        var cancellationToken = new CancellationToken();
+
+        _ruleValueResolver.GetValidatorRuleValue<int>(typeof(MaxLengthValidatorRule<string>), id, parameter).Returns(maxLength);
+
+        await _sut.ExecuteHandleAsync(validationContext, parameter, cancellationToken);
+    }
+
+    [Theory]
+    [InlineData("test", 3)]
+    [InlineData("testi", 4)]
+    [InlineData("testin", 5)]
+    [InlineData("testing", 6)]
+    public async Task ExecuteThrowsValidationException(string value, int maxLength)
+    {
+        var fixture = new Fixture();
+        var model = fixture.Create<RequestModel>();
+        var id = fixture.Create<string>();
+        var parameter = fixture.Create<string>();
+
+        var attribute = new ValidateAttribute(id, Enums.ValidatorType.MaxLength);
+        var validationContext = new ValidationContext<RequestModel, string>(attribute, value, model);
+
+        var cancellationToken = new CancellationToken();
+
+        _ruleValueResolver.GetValidatorRuleValue<int>(typeof(MaxLengthValidatorRule<string>), id, parameter).Returns(maxLength);
+
+        Func<Task> act = () => _sut.ExecuteHandleAsync(validationContext, parameter, cancellationToken);
+
+        await act.Should().ThrowAsync<ValidationException>().WithMessage($"Value '{validationContext.Value}' should have a maximum length of '{maxLength}'");
+    }
 }
