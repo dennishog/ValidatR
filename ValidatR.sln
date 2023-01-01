@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidatR.DependencyInjection.Tests", "ValidatR.DependencyInjection.Tests\ValidatR.DependencyInjection.Tests.csproj", "{6E940276-9734-454B-945E-94D43904292D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E940276-9734-454B-945E-94D43904292D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E940276-9734-454B-945E-94D43904292D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E940276-9734-454B-945E-94D43904292D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E940276-9734-454B-945E-94D43904292D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{F75FCE85-8957-4304-A4DB-845B79292E9A} = {07BFBFEA-420E-4CED-8AE1-E349054E13F0}
 		{AC2F1864-E11C-4B24-8FFB-A817CE491825} = {07BFBFEA-420E-4CED-8AE1-E349054E13F0}
 		{4EFC9B4B-3009-4069-A043-C51CFF7BAA34} = {C8D6C23B-1755-480B-A95E-CE10A188E36F}
+		{6E940276-9734-454B-945E-94D43904292D} = {C8D6C23B-1755-480B-A95E-CE10A188E36F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02AA2FD4-0753-4250-BC96-251BE29D9947}

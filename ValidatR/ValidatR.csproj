@@ -18,6 +18,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="$(AssemblyName).Tests" />
 		<InternalsVisibleTo Include="$(AssemblyName).DependencyInjection" />
+		<InternalsVisibleTo Include="$(AssemblyName).DependencyInjection.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>
