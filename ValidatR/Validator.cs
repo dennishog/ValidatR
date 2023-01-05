@@ -17,6 +17,16 @@ internal class Validator<TParameter> : IValidator<TParameter>
         _propertyProvider = propertyProvider;
     }
 
+    /// <summary>
+    /// Validates the provided model including nested objects
+    /// </summary>
+    /// <typeparam name="TModel">Type to validate</typeparam>
+    /// <param name="model">Instance to validate</param>
+    /// <param name="parameter">The parameter sent to the func to retrieve the validator rule values</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ValidatorsNotFoundException">No validators registered</exception>
+    /// <exception cref="AggregateException">Contains ValidationExceptions</exception>
     public async Task ValidateAsync<TModel>(TModel model, TParameter parameter, CancellationToken cancellationToken)
         where TModel : class
     {
@@ -49,6 +59,14 @@ internal class Validator<TParameter> : IValidator<TParameter>
         }
     }
 
+    /// <summary>
+    /// Validates the provided model including nested objects. This overload requires that the model type has a registered parameter resolver.
+    /// </summary>
+    /// <typeparam name="TModel">Type to validate</typeparam>
+    /// <param name="model">Instance to validate</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ParameterResolverNotFoundException{TModel, TParameter}">No parameter resolver exists for the type</exception>
     public async Task ValidateAsync<TModel>(TModel model, CancellationToken cancellationToken) where TModel : class
     {
         var parameterResolver = _parameterResolvers.SingleOrDefault(x => x.ShouldHandle(model)) ?? throw new ParameterResolverNotFoundException<TModel, TParameter>(model);

@@ -41,7 +41,7 @@ public class ValidationMiddleware<TModel> where TModel : class
 
                 if (model != null)
                 {
-                    await validator.ValidateAsync(model, CancellationToken.None);
+                    await validator.ValidateAsync(model, httpContext.RequestAborted);
                 }
             }
         }

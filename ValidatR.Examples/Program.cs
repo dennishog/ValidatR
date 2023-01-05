@@ -12,8 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// The T in this case refers to the type for the parameter for retrieving the validator rule value
 builder.Services.AddValidatR<string>()
-    .AddParameterResolver<CreateCustomerRequest>(x => x.FirstName)
+    .AddParameterResolver<CreateCustomerRequest>(x => x.FirstName) // We need to register parameter resolvers if we want to use Validate without providing a parameter (required by middleware)
     .AddParameterResolver<CreateItemRequest>(x => x.Name)
     .AddParameterResolver<Address>(x => x.Street);
 builder.Services.AddTransient<IStorageService, StorageService>();
@@ -29,9 +31,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 
-var storageService = app.Services.GetRequiredService<IStorageService>();
-//return storageService.GetValidationRuleValue(name, type, parameter);
+// This automatically registers an instance of the middleware per type
+// To be able to use a middleware to perform validation this is nesscecary since modelbinding has not yet occured.
+// The other option would be action filters
+// The types is optional and should only be used when manually wanting to control which types get a middleware, otherwise an assembly scan will be performed registering all types using the ValidateAttribute
 app.UseValidatorMiddleware(typeof(CreateCustomerRequest), typeof(Address));
+
+// Example registration where a storageService is implemented handing retriving the rule values to use based on id, validator and parameter
+var storageService = app.Services.GetRequiredService<IStorageService>();
 app.UseValidatR<string>()
     .AddMinLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MinLength, parameter))
     .AddMaxLengthValidator((id, parameter) => storageService.GetValidationRuleValue<int>(id, ValidatorType.MaxLength, parameter))

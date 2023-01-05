@@ -1,0 +1,9 @@
+global using AutoFixture;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc.Abstractions;
+global using Microsoft.AspNetCore.Mvc.Controllers;
+global using Microsoft.Extensions.DependencyInjection;
+global using Newtonsoft.Json;
+global using NSubstitute;
+global using System.Text;
+global using Xunit;
