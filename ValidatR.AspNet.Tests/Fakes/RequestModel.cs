@@ -1,8 +1,9 @@
-﻿using ValidatR.Attributes;
+﻿using System.Diagnostics.CodeAnalysis;
+using ValidatR.Attributes;
 
 namespace ValidatR.AspNet.Tests.Fakes;
 
-public class RequestModel
+public class RequestModel : IEqualityComparer<RequestModel>
 {
     public RequestModel(string? stringValue, int intValue, bool boolValue, decimal decimalValue, AnotherRequestModel another, List<AnotherRequestModel> anothers)
     {
@@ -23,4 +24,75 @@ public class RequestModel
     public AnotherRequestModel Another { get; set; }
     [Validate("Anothers", Enums.ValidatorType.Required)]
     public List<AnotherRequestModel> Anothers { get; set; }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is RequestModel model)
+        {
+            return Equals(this, model);
+        }
+
+        return false;
+    }
+
+    public bool Equals(RequestModel? x, RequestModel? y)
+    {
+        if (ReferenceEquals(x, y))
+        {
+            return true;
+        }
+
+        if (x is null || y is null)
+        {
+            return false;
+        }
+
+        if (x.StringValue != y.StringValue)
+        {
+            return false;
+        }
+
+        if (x.IntValue != y.IntValue)
+        {
+            return false;
+        }
+
+        if (x.BoolValue != y.BoolValue)
+        {
+            return false;
+        }
+
+        if (x.DecimalValue != y.DecimalValue)
+        {
+            return false;
+        }
+
+        if (!x.Another.Equals(y.Another))
+        {
+            return false;
+        }
+
+        if (x.Anothers != null && y.Anothers != null && x.Anothers.Count != y.Anothers.Count)
+        {
+            return false;
+        }
+
+        if (x.Anothers != null && y.Anothers != null)
+        {
+            for (var i = 0; i < x.Anothers.Count; i++)
+            {
+                if (!x.Anothers[i].Equals(y.Anothers[i]))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public int GetHashCode([DisallowNull] RequestModel obj)
+    {
+        throw new NotImplementedException();
+    }
 }

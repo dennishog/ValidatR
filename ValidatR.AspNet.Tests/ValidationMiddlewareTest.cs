@@ -1,12 +1,4 @@
-﻿using AutoFixture;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Abstractions;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using NSubstitute;
-using System.Text;
-using ValidatR.AspNet.Tests.Fakes;
+﻿using ValidatR.AspNet.Tests.Fakes;
 
 namespace ValidatR.AspNet.Tests;
 
@@ -24,7 +16,6 @@ public class ValidationMiddlewareTest
 
         var cancellationToken = new CancellationToken();
 
-        //var httpContextFactory = new DefaultHttpContextFactory(serviceProvider);
         var httpContext = new DefaultHttpContext
         {
             RequestAborted = cancellationToken
@@ -36,7 +27,6 @@ public class ValidationMiddlewareTest
 
         httpContext.Request.ContentLength = stream.Length;
         httpContext.Request.ContentType = "application/json";
-
 
         var controllerActionDescriptor = new ControllerActionDescriptor
         {
@@ -54,7 +44,6 @@ public class ValidationMiddlewareTest
 
         var endpoint = new Endpoint((httpContext) => Task.CompletedTask, endpointMetadataCollection, "test");
         httpContext.SetEndpoint(endpoint);
-        //featureCollection.Set<FormFeature>(new FormFeature(httpContext.Request));
         var requestDelegate = new RequestDelegate((context) => Task.FromResult(httpContext));
         var sut = new ValidationMiddleware<RequestModel>(requestDelegate);
 
@@ -62,6 +51,6 @@ public class ValidationMiddlewareTest
 
         await sut.InvokeAsync(httpContext, validator);
 
-        await validator.Received(1).ValidateAsync(Arg.Any<RequestModel>(), httpContext.RequestAborted);
+        await validator.Received(1).ValidateAsync(Arg.Is<RequestModel>(model), httpContext.RequestAborted);
     }
 }
